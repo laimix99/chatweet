@@ -1,4 +1,5 @@
 {
+  "name": "chatweet",
   "private": true,
   "scripts": {
     "build": "nuxt build",
