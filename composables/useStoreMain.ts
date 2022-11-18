@@ -11,6 +11,8 @@ export const useStoreMain = defineStore('counter', () => {
 
   const posts = useStorage('posts', []);
 
+  const showModal = ref(false)
+
   function clearStorege() {
     posts.value = []
   }
@@ -78,6 +80,8 @@ export const useStoreMain = defineStore('counter', () => {
 
   return {
     posts,
+    showModal,
+    authorDefault,
     postAdd,
     postDelete,
     postLike,

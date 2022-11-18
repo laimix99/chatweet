@@ -24,6 +24,7 @@
             v-for="(file, fileIndex) in post.files"
             :key="fileIndex"
             :src="file.url"
+            view="post"
           />
         </div>
       </div>

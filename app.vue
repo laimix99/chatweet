@@ -1,7 +1,19 @@
+<script setup>
+const storeMain = useStoreMain()
+</script>
+
 <template>
   <div class="flex flex-row min-h-screen bg-hex-191919 w-full">
-    <div class="flex flex-col w-1/5">
-      <span class="text-hex-dbdddd pl-5">left navigation</span>
+    <div class="flex flex-col pl-10 w-1/5 gap-6 items-start ">
+      <NuxtLink class="no-underline" to="/">Лента</NuxtLink>
+      <NuxtLink class="no-underline" to="/profile" >Профиль</NuxtLink>
+      <MyButton @click="storeMain.showModal = true" >
+        Поделиться 
+      </MyButton>
+      <BaseModal 
+        v-if="storeMain.showModal" 
+        @close="storeMain.showModal = false"
+        />
     </div>
     <div class="flex-grow  w-3-5 content">
       <NuxtPage />
@@ -22,6 +34,9 @@ body,
   padding: 0;
   /* @apply font-sans; */
 }
+.modal {
+  background: rgba(0, 0, 0, 0.4);
+}
 
 .br {
   outline: 1px solid red;
@@ -38,5 +53,6 @@ input {
 }
 input:focus {
   outline: none;
+  
 }
 </style>
