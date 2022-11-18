@@ -28,8 +28,7 @@
     showComents.value = !showComents.value
   }
 </script>
-<!-- :style="{fill: date?.comments.length > 0 ? 'blue' : '#dbdddd'}"
-:style="{color: date?.comments.length > 0 ? 'blue' : '#dbdddd'}" -->
+
 <template>
   <div class="flex flex-col w-full py-2 items-start">
     <div class="flex flex-row w-full gap-10 items-center justify-center">

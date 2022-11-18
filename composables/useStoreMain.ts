@@ -9,28 +9,11 @@ export const useStoreMain = defineStore('counter', () => {
     avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
   } as any;
 
-  const posts = useStorage('posts', [
-    {
-      id: '1',
-      text: 'Hello World',
-      files: [],
-      author: authorDefault,
-      created_at: 1,
-      updated_at: 1,
-      likes: [] as any,
-      comments: [
-        {
-          id: '2',
-          text: 'Hello Friend',
-          author: authorDefault,
-          created_at: 1,
-          updated_at: 1,
-        }
-      ]
-    },
-  ]);
+  const posts = useStorage('posts', []);
 
-
+  function clearStorege() {
+    posts.value = []
+  }
   function commentAdd(postId, comment: any) {
     console.log(':pocomentAddstAdd', comment);
     comment.id = Date.now().toString();
@@ -52,7 +35,6 @@ export const useStoreMain = defineStore('counter', () => {
     post.created_at = Date.now();
     post.updated_at = null;
     post.author = authorDefault;
-    post.files = [];
     posts.value.unshift(post);
     post.likes = [];
     post.comments = []
@@ -102,5 +84,6 @@ export const useStoreMain = defineStore('counter', () => {
     likeIncreased,
     commentAdd,
     commentDelete,
+    clearStorege,
   };
 });

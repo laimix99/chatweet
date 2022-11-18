@@ -1,36 +1,50 @@
 <script lang="ts" setup>
-import { useObjectUrl } from '@vueuse/core'
-import { shallowRef } from 'vue'
+import { useFileDialog } from '@vueuse/core'
 
-const file = shallowRef()
-const url = useObjectUrl(file)
+const { files, open, reset } = useFileDialog()
 
 const storeMain = useStoreMain();
 const state = reactive({
   text: "",
-  files: [],
+  files: [] as any,
 });
+
+
 function postAdd() {
-  if (state.text === '') {
+  if (!state.text || !state.files) {
     return
   }
   console.log("postAdd");
   const postPayload = {
     text: state.text,
+    files: state.files
   };
-  state.text = "";
   storeMain.postAdd(postPayload);
+  state.text = "";
+  state.files = []
+  
 }
+const openDialog = () => {
+  open()
+}
+watch(() => files.value, (to) => {
+  console.log(to)
+  if (to) {
+    const filesLength = to.length
+    const lastFile = to[filesLength - 1]
+    const url = URL.createObjectURL(lastFile)
+    state.files.push({ url: url, file: lastFile })
+    console.log(state.files)
+  }
+})
 
-const onFileChange = (event) => {
-  file.value = event.target.files[0]
-  console.log(file.value.name)
-  return file.value.name
-}
 </script>
 
 <template>
   <div class="flex flex-col">
+    <div class="flex top-0 right-0 z-99 fixed">
+      <button @click="storeMain.clearStorege" class="bg-red-100 rounded-2 p-2 text-red-500"> clearStorage </button>
+    </div>
     <div class="flex flex-col py-3 px-2 share items-center">
       <input
         type="text"
@@ -41,8 +55,18 @@ const onFileChange = (event) => {
       />
       <div class="flex flex-row mt-20px w-full items-start justify-between">
         <div class="flex flex-col items-start">
-          <input type="file" class="text-hex-dbdddd" @change="onFileChange"/>
-          <a v-if="url" class="cursor-pointer mt-10px text-hex-dbdddd" :href="url">Open file</a>
+          <MySvg
+            title="Загрузить"
+            @click="openDialog"
+            icon="add"
+          />
+          <div class="flex flex-row mt-20px gap-2">
+            <BaseImg
+              v-for="(img, imgIndex) in state.files"
+              :key="imgIndex"
+              :src="img.url"
+            />
+          </div>
         </div>
         <MyButton @click="postAdd">
           Поделиться

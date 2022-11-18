@@ -19,9 +19,13 @@
       </div>
       <div class="flex flex-col items-start">
         <h2 class="text-hex-dbdddd text-left text-18px leading-10px">{{ post.text }}</h2>
-        <BaseImg
-          src="https://api.psychologos.ru/storage/image/49c2q1cr.jpg"
-        />
+        <div class="flex flex-row gap-2">
+          <BaseImg
+            v-for="(file, fileIndex) in post.files"
+            :key="fileIndex"
+            :src="file.url"
+          />
+        </div>
       </div>
     </div>
   </div>
