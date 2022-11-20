@@ -16,6 +16,7 @@ const props = defineProps({
     </svg>
     <svg v-if="props.icon === 'add'" width="30" fill="#07485B" height="30" viewBox="0 0 24 24" aria-hidden="true" class="r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-4qtqp9 r-z80fyv r-1plcrui r-19wmn03" style="color: rgb(29, 155, 240);"><g><path d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path></g></svg>
     <svg v-if="props.icon === 'send'" class="send" width="30" height="30" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M6 40V8l38 16Zm3-4.65L36.2 24 9 12.5v8.4L21.1 24 9 27Zm0 0V12.5 27Z"/></svg>
+    <svg v-if="props.icon === 'location'" width="20" height="20" fill="#dbdddd" viewBox="0 0 24 24" aria-hidden="true" class="r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-1bwzh9t r-4qtqp9 r-1xvli5t r-1d4mawv r-1plcrui"><g><path d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7zm0 5c-.827 0-1.5-.673-1.5-1.5S11.173 9 12 9s1.5.673 1.5 1.5S12.827 12 12 12zm0-10c-4.687 0-8.5 3.813-8.5 8.5 0 5.967 7.621 11.116 7.945 11.332l.555.37.555-.37c.324-.216 7.945-5.365 7.945-11.332C20.5 5.813 16.687 2 12 2zm0 17.77c-1.665-1.241-6.5-5.196-6.5-9.27C5.5 6.916 8.416 4 12 4s6.5 2.916 6.5 6.5c0 4.073-4.835 8.028-6.5 9.27z"></path></g></svg>
   </div>
 </template>
 

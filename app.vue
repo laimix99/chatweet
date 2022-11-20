@@ -15,7 +15,7 @@ const storeMain = useStoreMain()
         @close="storeMain.showModal = false"
         />
     </div>
-    <div class="flex-grow  w-3-5 content">
+    <div class="flex-grow w-3-5 content">
       <NuxtPage />
     </div>
     <div class="w-1/5">
@@ -41,8 +41,9 @@ body,
 .br {
   outline: 1px solid red;
 }
-h1, h2, span, p {
+h1, h2, span, p, a, input, textarea {
   font-family: 'Montserrat', sans-serif;
+  margin: 0;
 }
 .content {
   border-right: 1px solid #2f3335 ;
