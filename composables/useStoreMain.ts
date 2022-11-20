@@ -7,11 +7,25 @@ export const useStoreMain = defineStore('counter', () => {
     username: '@mike',
     name: 'Mike',
     avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
+    dateOfBirth: '',
+    description: '',
+    location: '',
+    web_site: '',
   } as any;
 
   const posts = useStorage('posts', []);
 
   const showModal = ref(false)
+
+  const showEdit = ref(false)
+
+  function changeProfile(prof: any) {
+    // authorDefault.name = prof.name
+    authorDefault.dateOfBirth = prof.date
+    authorDefault.description = prof.description
+    authorDefault.location = prof.location
+    authorDefault.web_site = prof.webSite
+  }
 
   function clearStorege() {
     posts.value = []
@@ -81,6 +95,7 @@ export const useStoreMain = defineStore('counter', () => {
   return {
     posts,
     showModal,
+    showEdit,
     authorDefault,
     postAdd,
     postDelete,
@@ -89,5 +104,6 @@ export const useStoreMain = defineStore('counter', () => {
     commentAdd,
     commentDelete,
     clearStorege,
+    changeProfile,
   };
 });

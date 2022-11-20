@@ -17,7 +17,7 @@
         <h1 class="font-700 text-hex-dbdddd text-15px">{{ post.author.name }}</h1>
         <span class="font-400 text-hex-dbdddd opacity-40">{{ post.author.username }}</span>
       </div>
-      <div class="flex flex-col items-start">
+      <div class="flex flex-col mt-10px gap-3 items-start">
         <h2 class="text-hex-dbdddd text-left text-18px leading-10px">{{ post.text }}</h2>
         <div class="flex flex-row gap-2">
           <BaseImg
