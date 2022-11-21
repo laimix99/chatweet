@@ -32,7 +32,7 @@
 <template>
   <div class="flex flex-col w-full py-2 items-start">
     <div class="flex flex-row w-full gap-10 items-center justify-center">
-      <div class="flex flex-row gap-2 items-center">
+      <div class="cursor-pointer flex flex-row gap-2 items-center">
         <p :style="{color: date?.comments.length > 0 ? 'blue' : '#dbdddd'}" class="text-hex-dbdddd">{{ date?.comments.length }}</p>
         <MySvg
           class="coment"
@@ -41,7 +41,7 @@
           :style="{fill: date?.comments.length > 0 ? 'blue' : '#dbdddd'}"
         />
       </div>
-      <div class="flex flex-row gap-2 items-center">
+      <div class="cursor-pointer flex flex-row gap-2 items-center">
         <p 
           :style="{color: storeMain.likeIncreased(date?.id) ? 'red': '#dbdddd'}"
           class="text-hex-dbdddd"
@@ -68,7 +68,11 @@
         
       />
       <div class="flex flex-row w-full gap-2 items-center">
-        <img class="rounded-1/2 w-40px" :src="date?.author.avatarUrl" alt="">
+        <!-- <img class="rounded-1/2 w-40px" :src="date?.author.avatarUrl" alt=""> -->
+        <BaseImg
+          :src="date?.author.avatarUrl"
+          view="avatar"
+        />
         <input 
           type="text"
           v-model="state.textComent"

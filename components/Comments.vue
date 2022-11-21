@@ -10,7 +10,11 @@ const storeMain = useStoreMain()
 
 <template>
   <div class="flex flex-row w-full py-2 comment items-start" >
-    <img class="rounded-1/2 w-30px" :src="comment.author.avatarUrl" alt="">
+    <!-- <img class="rounded-1/2 w-30px" :src="comment.author.avatarUrl" alt=""> -->
+    <BaseImg
+      :src="comment.author.avatarUrl"
+      view="comment"
+    />
     <div class="flex flex-col pl-3 gap-2 items-start">
       <span class="text-hex-dbdddd text-14px" >{{ comment.author.name }}</span>
       <p class=" m-0 text-hex-dbdddd w-full max-w-400px text-16px">{{ comment.text }}</p>

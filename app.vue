@@ -7,12 +7,12 @@ const storeMain = useStoreMain()
     <div class="flex flex-col pl-10 w-1/5 gap-6 items-start ">
       <NuxtLink class="no-underline" to="/">Лента</NuxtLink>
       <NuxtLink class="no-underline" to="/profile" >Профиль</NuxtLink>
-      <MyButton @click="storeMain.showModal = true" >
+      <MyButton @click="storeMain.state.showModal = true" >
         Поделиться 
       </MyButton>
       <BaseModal 
-        v-if="storeMain.showModal" 
-        @close="storeMain.showModal = false"
+        v-if="storeMain.state.showModal" 
+        @close="storeMain.state.showModal = false"
         />
     </div>
     <div class="flex-grow w-3-5 content">

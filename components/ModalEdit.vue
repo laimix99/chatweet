@@ -1,27 +1,43 @@
 <script setup>
-const emit = defineEmits(['close'])
+const { files, open, reset } = useFileDialog()
 const storeMain = useStoreMain()
 
+const emit = defineEmits(['close'])
+
 const state = reactive({
-  name: '',
+  avatarUrl: '',
+  name: storeMain.state.user.name,
   description: '',
   location: '',
   webSite: '',
-  date: '',
+  dateOfBirth: '',
 })
 
 const changeProfile = () => {
-  const userInfo = {
-    name: state.name,
-    description: state.description,
-    location: state.location,
-    webSite: state.webSite,
-    date: state.date,
-  }
-  console.log(userInfo);
-  storeMain.changeProfile(userInfo)
-  storeMain.showEdit = false
+  // if (state.name === '') {
+  //   return console.log('пусто сука')
+  // }
+  console.log(state);
+  storeMain.changeProfile(state)
+  storeMain.state.showEdit = false
 }
+
+const showAvatar = ref(true)
+const openDialog = () => {
+  open()
+}
+watch(() => files.value, (to) => {
+  // console.log(to)
+  if (to) {
+    const filesLength = to.length
+    const lastFile = to[filesLength - 1]
+    const url = URL.createObjectURL(lastFile)
+    state.avatarUrl = url
+    showAvatar.value = !showAvatar.value
+
+    console.log(state.files)
+  }
+})
 
 </script>
 
@@ -35,15 +51,30 @@ const changeProfile = () => {
         </div>
         <MyButton @click="changeProfile">Сохранить</MyButton>
       </div>
-      <div class="flex flex-col w-full gap-4 items-start">
-        <BaseImg 
-          view="profile"
-          :src="storeMain.authorDefault.avatarUrl" 
-        />
+      <div class="flex flex-col w-full gap-4 items-start relative">
+        <div class="flex flex-row">
+          <div class="flex flex-col h-full rounded-1/2 w-full max-w-40px max-h-40px p-1 top-7 left-7 items-center justify-center circle absolute">
+            <MySvg
+              title="Загрузить"
+              @click="openDialog"
+              icon="change"
+            />
+          </div>
+          <BaseImg 
+            v-if="showAvatar"
+            view="profile"
+            :src="storeMain.state.user.avatarUrl" 
+          />
+          <BaseImg
+            v-if="state.avatarUrl"
+            view="profile"
+            :src="state.avatarUrl"
+          />
+        </div>
         <input 
           v-model="state.name"
           class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
-          :placeholder="storeMain.authorDefault.name" 
+          placeholder="Name" 
           type="text"
         >
         <textarea 
@@ -64,7 +95,7 @@ const changeProfile = () => {
           type="text"
         >
         <input 
-          v-model="state.date"
+          v-model="state.dateOfBirth"
           class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"
           type="date"
           
@@ -97,5 +128,8 @@ const changeProfile = () => {
     border-radius: 5px;
     
     /* opacity: 0; */
+  }
+  .circle {
+    background: rgba(0, 0, 0, 0.2);
   }
 </style>

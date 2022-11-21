@@ -2,46 +2,70 @@ import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 
 export const useStoreMain = defineStore('counter', () => {
-  const authorDefault = {
-    id: '1',
-    username: '@mike',
-    name: 'Mike',
-    avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
-    dateOfBirth: '',
-    description: '',
-    location: '',
-    web_site: '',
-  } as any;
+  const state = reactive({
+    user: useStorage('user', {
+      id: '1',
+      username: '@mike',
+      name: 'Mike',
+      avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
+      dateOfBirth: '',
+      description: '',
+      location: 'екатеринбург',
+      web_site: '',
+    }),
+    posts: useStorage('posts', []),
+    showModal: false,
+    showEdit: false,
+  })
 
-  const posts = useStorage('posts', []);
+  // const authorDefault = {
+  //   id: '1',
+  //   username: '@mike',
+  //   name: 'Mike',
+  //   avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
+  //   dateOfBirth: '',
+  //   description: '',
+  //   location: 'екатеринбург',
+  //   web_site: '',
+  // } as any;
 
-  const showModal = ref(false)
+  // const profile = useStorage('aythor', 
+  //   {
+  //     author: authorDefault,
+  //   }
+  // );
 
-  const showEdit = ref(false)
+  // const posts = useStorage('posts', []);
+
+  // const showModal = ref(false)
+
+  // const showEdit = ref(false)
 
   function changeProfile(prof: any) {
-    // authorDefault.name = prof.name
-    authorDefault.dateOfBirth = prof.date
-    authorDefault.description = prof.description
-    authorDefault.location = prof.location
-    authorDefault.web_site = prof.webSite
+    Object.keys(prof).forEach((key) => {
+      if (prof[key]) {
+        state.user[key] = prof[key]
+        console.log('update key', key)
+      }
+    })
+    console.log('changeProfile profile', state.user)
   }
 
   function clearStorege() {
-    posts.value = []
+    state.posts = []
   }
   function commentAdd(postId, comment: any) {
     console.log(':pocomentAddstAdd', comment);
     comment.id = Date.now().toString();
-    comment.author = authorDefault;
+    comment.author = state.user;
     comment.created_at = Date.now();
     comment.updated_at = null;
-    const postIndex = posts.value.findIndex((p: any) => p.id === postId);
-    posts.value[postIndex].comments.push(comment)
+    const postIndex = state.posts.findIndex((p: any) => p.id === postId);
+    state.posts[postIndex].comments.push(comment)
   }
 
   function commentDelete(postId) {
-    const postIndex = posts.value.findIndex((p: any) => p.id === postId);
+    const postIndex = state.posts.findIndex((p: any) => p.id === postId);
     // posts.value[postIndex] = posts.value[postIndex].filter((p: any) => p.id !== postId);
   }
 
@@ -50,8 +74,8 @@ export const useStoreMain = defineStore('counter', () => {
     post.id = Date.now().toString();
     post.created_at = Date.now();
     post.updated_at = null;
-    post.author = authorDefault;
-    posts.value.unshift(post);
+    post.author = state.user;
+    state.posts.unshift(post);
     post.likes = [];
     post.comments = []
   }
@@ -59,7 +83,7 @@ export const useStoreMain = defineStore('counter', () => {
   function postDelete(postId) {
     console.log(':postDelete', postId);
     if (confirm('Удалить пост ?')) {
-      posts.value = posts.value.filter((p: any) => p.id !== postId);
+      state.posts = state.posts.filter((p: any) => p.id !== postId);
     }
   }
 
@@ -67,8 +91,8 @@ export const useStoreMain = defineStore('counter', () => {
   //   return likes.value.find((like) => like === MY_ID)
   // })
   function likeIncreased (postId: number) {
-    const postFound = posts.value?.find((p: any) => p.id === postId);
-    return postFound?.likes?.find((l: any) => l?.id === authorDefault.id) 
+    const postFound = state.posts.find((p: any) => p.id === postId);
+    return postFound?.likes?.find((l: any) => l?.id === state.user.id) 
   }
 
 
@@ -79,13 +103,13 @@ export const useStoreMain = defineStore('counter', () => {
 
   function postLike(postId) {
     console.log(':postLike', postId);
-    const postIndex = posts.value.findIndex((p: any) => p.id === postId);
+    const postIndex = state.posts.findIndex((p: any) => p.id === postId);
     // await axios.post('/post/like', postId)
     // getPosts()
     if (likeIncreased(postId)) {
-      posts.value[postIndex].likes = posts.value[postIndex].likes.filter((l: any) => l?.id !== authorDefault.id )
+      state.posts[postIndex].likes = state.posts[postIndex].likes.filter((l: any) => l?.id !== state.user.id )
     } else {
-      posts.value[postIndex].likes?.push(authorDefault)
+      state.posts[postIndex].likes?.push(state.user)
     }
 
   }
@@ -93,10 +117,7 @@ export const useStoreMain = defineStore('counter', () => {
   
 
   return {
-    posts,
-    showModal,
-    showEdit,
-    authorDefault,
+    state,
     postAdd,
     postDelete,
     postLike,

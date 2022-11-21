@@ -28,7 +28,7 @@ function postAdd() {
   storeMain.postAdd(postPayload);
   state.text = "";
   state.files = []
-  storeMain.showModal = false
+  storeMain.state.showModal = false
 }
 const openDialog = () => {
   open()
@@ -52,7 +52,7 @@ watch(() => files.value, (to) => {
 
     <div class="flex flex-row w-full gap-2 items-center">
       <BaseImg  
-        :src="storeMain?.authorDefault.avatarUrl"
+        :src="storeMain?.state.user.avatarUrl"
         view="avatar"
       />
       <input
