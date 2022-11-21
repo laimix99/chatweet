@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const storeMain = useStoreMain();
+console.log('пост', storeMain.state.posts)
 </script>
 
 <template>
@@ -9,18 +10,13 @@ const storeMain = useStoreMain();
     </div>
     <Share/>
     <div
-      v-for="p in storeMain.posts"
+      v-for="p in storeMain.state.posts"
       :key="p.id"
       class="flex flex-col px-2 news items-start relative"
-    >
-      <NuxtLink
-        :to="`/tweet/${p.id}`"
-        class="flex flex-col w-full items-center no-underline"
-      >
-        <News
-          :post="p"
-        />
-      </NuxtLink>
+    > 
+      <News
+        :post="p"
+      />
       <MySvg 
         @click="storeMain.postDelete(p.id)" 
         class="top-6 right-2 absolute"
