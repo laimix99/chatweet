@@ -9,6 +9,7 @@ const props = defineProps({
   }
 })
 
+
 const storeMain = useStoreMain();
 const state = reactive({
   text: "",
@@ -47,7 +48,7 @@ watch(() => files.value, (to) => {
 </script>
 
 <template>
-  <div class="flex flex-col py-3 px-2 share items-center">
+  <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <!-- {{ storeMain?.authorDefault.name }} -->
 
     <div class="flex flex-row w-full gap-2 items-center">

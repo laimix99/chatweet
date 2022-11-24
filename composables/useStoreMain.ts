@@ -16,30 +16,12 @@ export const useStoreMain = defineStore('counter', () => {
     posts: useStorage('posts', []),
     showModal: false,
     showEdit: false,
+    menu: [
+      {title: 'Лента', link: '/', icon: 'ribbon'},
+      {title: 'Профиль', link: '/profile', icon: 'profile'},
+    ],
+
   })
-
-  // const authorDefault = {
-  //   id: '1',
-  //   username: '@mike',
-  //   name: 'Mike',
-  //   avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
-  //   dateOfBirth: '',
-  //   description: '',
-  //   location: 'екатеринбург',
-  //   web_site: '',
-  // } as any;
-
-  // const profile = useStorage('aythor', 
-  //   {
-  //     author: authorDefault,
-  //   }
-  // );
-
-  // const posts = useStorage('posts', []);
-
-  // const showModal = ref(false)
-
-  // const showEdit = ref(false)
 
   function changeProfile(prof: any) {
     Object.keys(prof).forEach((key) => {
@@ -72,7 +54,7 @@ export const useStoreMain = defineStore('counter', () => {
   function postAdd(post: any) {
     console.log(':postAdd', post);
     post.id = Date.now().toString();
-    post.created_at = Date.now();
+    post.created_at = new Date();
     post.updated_at = null;
     post.author = state.user;
     state.posts.unshift(post);
@@ -82,9 +64,9 @@ export const useStoreMain = defineStore('counter', () => {
 
   function postDelete(postId) {
     console.log(':postDelete', postId);
-    if (confirm('Удалить пост ?')) {
+    // if (confirm('Удалить пост ?')) {
       state.posts = state.posts.filter((p: any) => p.id !== postId);
-    }
+    // }
   }
 
   // const likeIncreased = computed(() => {

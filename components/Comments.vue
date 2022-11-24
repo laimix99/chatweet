@@ -9,8 +9,7 @@ const storeMain = useStoreMain()
 </script>
 
 <template>
-  <div class="flex flex-row w-full py-2 comment items-start" >
-    <!-- <img class="rounded-1/2 w-30px" :src="comment.author.avatarUrl" alt=""> -->
+  <div class="flex flex-row w-full py-2 pl-4 comment items-start" >
     <BaseImg
       :src="comment.author.avatarUrl"
       view="comment"
@@ -20,12 +19,10 @@ const storeMain = useStoreMain()
       <p class=" m-0 text-hex-dbdddd w-full max-w-400px text-16px">{{ comment.text }}</p>
     </div>
   </div>
-  <!-- <button @click="storeMain.commentAdd(comment.id)">delete</button> -->
-  <!-- <pre class="text-red-700" >{{comment}}</pre> -->
 </template>
 
 <style scoped>
   .comment {
-    border-top: 1px solid gray;
+    /* border-top: 1px solid gray; */
   }
 </style>

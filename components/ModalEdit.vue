@@ -42,16 +42,19 @@ watch(() => files.value, (to) => {
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen w-full top-0 left-0 w-100vw z-999 modal items-center justify-center absolute ">
-    <div class=" bg-black flex flex-col rounded-16px w-full max-w-600px p-5 items-start ">
+  <div class="flex flex-col min-h-screen w-full top-0 left-0 w-100vw z-999 modal items-center justify-center fixed ">
+    <div 
+      class="bg-black flex flex-col h-screen w-full max-w-600px p-5 box-border items-start"
+      lg="rounded-16px h-full"
+    >
       <div class="flex flex-row w-full items-center justify-between">
         <div class="flex flex-row gap-3 items-center">
           <MySvg icon="close" @click="emit('close')"/>
-          <h1 class="text-hex-dbdddd text-20px">Изменить профиль</h1>
+          <h1 class="text-hex-dbdddd text-15px" lg="tet-20px">Изменить профиль</h1>
         </div>
         <MyButton @click="changeProfile">Сохранить</MyButton>
       </div>
-      <div class="flex flex-col w-full gap-4 items-start relative">
+      <div class="flex flex-col mt-10px w-full gap-8 items-start relative">
         <div class="flex flex-row">
           <div class="flex flex-col h-full rounded-1/2 w-full max-w-40px max-h-40px p-1 top-7 left-7 items-center justify-center circle absolute">
             <MySvg
