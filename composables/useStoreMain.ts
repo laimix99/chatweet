@@ -7,7 +7,7 @@ export const useStoreMain = defineStore('counter', () => {
       id: '1',
       username: '@mike',
       name: 'Mike',
-      avatarUrl: 'https://img.freepik.com/free-vector/man-shows-gesture-of-a-great-idea_10045-637.jpg?w=2000',
+      avatarUrl: '',
       dateOfBirth: '',
       description: '',
       location: 'екатеринбург',
