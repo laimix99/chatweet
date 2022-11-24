@@ -5,14 +5,14 @@ console.log('пост', storeMain.state.posts)
 
 <template>
   <div class="flex flex-col">
-    <div class="flex top-0 right-0 z-99 fixed">
+    <!-- <div class="flex top-0 right-0 z-99 fixed">
       <button @click="storeMain.clearStorege" class="bg-red-100 rounded-2 p-2 text-red-500"> clearStorage </button>
-    </div>
+    </div> -->
     <Share/>
     <div
       v-for="p in storeMain.state.posts"
       :key="p.id"
-      class="flex flex-col px-2 news items-start relative"
+      class="flex flex-col px-3 news items-start relative"
     > 
       <News
         :post="p"
