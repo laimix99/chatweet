@@ -8,6 +8,15 @@ const showMobileMenu = computed(() => {
     return false
   }
 })
+
+const showBottonPost = computed(() => {
+  if (width.value > 1024) {
+    return true
+  } else {
+    return false
+  }
+})
+
 const storeMain = useStoreMain()
 const route = useRoute();
 </script>
@@ -43,10 +52,19 @@ const route = useRoute();
           </span>
         </NuxtLink>
         <MyButton 
+          v-if="showBottonPost"
           @click="storeMain.state.showModal = true" 
           size="20" 
         >
           Поделиться 
+        </MyButton>
+        <MyButton
+          v-else
+          @click="storeMain.state.showModal = true"
+        >
+          <MySvg
+            icon="add-post"
+          />
         </MyButton>
       </div>
     </div>
