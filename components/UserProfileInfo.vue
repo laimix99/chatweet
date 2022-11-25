@@ -29,6 +29,7 @@
         </a>
       </div>
       <MyButton 
+        view="blue"
         @click="storeMain.state.showEdit = true"
       >
         Изменить профиль 
@@ -38,10 +39,10 @@
         @close="storeMain.state.showEdit = false"
       />
     </div>
-    <div class="flex flex-row mt-3 text-hex-dbdddd w-full opacity-40 gap-5 items-start">
+    <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 items-start">
       <h1 class="font-400 text-13px">Дата рождения: {{ storeMain.state.user.dateOfBirth }}</h1>
-      <span class="cursor-pointer font-400 text-13px hover:underline ">40 подписчиков</span>
-      <span class="cursor-pointer font-400 text-13px hover:underline">50 подписок</span>
+      <NuxtLink to="/follower" class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline ">40 в читаемых</NuxtLink>
+      <NuxtLink to="/follower" class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline">50 читателей</NuxtLink>
     </div>
   </div>
 </template>
