@@ -12,6 +12,18 @@ export const useStoreMain = defineStore('counter', () => {
       description: '',
       location: 'екатеринбург',
       web_site: '',
+      readers: [
+        {name: 'Макс', username: '@max', id: '', avatarUrl: 'https://n1s1.elle.ru/e9/2b/bf/e92bbf78184a1168e43d2f60db7c6b8b/728x946_1_8c05a11722cb53c974cc0a44167425a5@800x1040_0xc35dbb80_13873213741517414727.jpg'},
+        {name: 'Рома', username: '@roma', id: '', avatarUrl: 'https://beautyhack.ru/assets/images/december/dzhejmi-dornan.jpg'},
+        {name: 'Сергей', username: '@serg', id: '', avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9HofNC4aXPw-GY6_E3PgyNcLiyITmdwwRiCDvz4rdT2qdtkvK8m6YK61zzv8WnawwFJo&usqp=CAU'},
+        {name: 'Анатолий', username: '@anat', id: '', avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3YYSEHExD_2tlgSLzpK2u1zdkBIj1vxdBOFenLs1pOFbUQEL2pvFgKNnhP3ITnSJYAIQ&usqp=CAU'},
+        {name: 'Илья', username: '@iluxa', id: '', avatarUrl: 'https://ledysoveti.com.ua/wp-content/uploads/2017/01/rejting-samyh-krasivyh-muzhchin-3.jpg'},
+      ],
+      read: [
+        {name: 'Дима', username: '@dim', id: '', avatarUrl: '' },
+        {name: 'Света', username: '@sveta', id: '', avatarUrl: '' },
+        {name: 'ДЖамал', username: '@dg', id: '', avatarUrl: '' },
+      ],
     }),
     posts: useStorage('posts', []),
     showModal: false,

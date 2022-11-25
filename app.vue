@@ -42,7 +42,10 @@ const route = useRoute();
             {{ menu.title }}
           </span>
         </NuxtLink>
-        <MyButton @click="storeMain.state.showModal = true" >
+        <MyButton 
+          @click="storeMain.state.showModal = true" 
+          size="20" 
+        >
           Поделиться 
         </MyButton>
       </div>
@@ -53,14 +56,13 @@ const route = useRoute();
     >
       <NuxtPage />
     </div>
-    <!-- <div 
+    <div 
     class="hidden"
     lg="w-1/5 inline"  
     >
-      hhh
-    </div> -->
+    
+    </div>
     <BaseModal 
-    class="br"
       v-if="storeMain.state.showModal" 
       @close="storeMain.state.showModal = false"
     />
