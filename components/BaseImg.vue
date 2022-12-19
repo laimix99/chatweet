@@ -3,6 +3,12 @@ const props = defineProps({
   src: { type: String },
   view: { type: String },
 });
+// const baseURL = 'https://mfvcni0p.directus.app/'
+// const imgUrl = computed(() => {
+//   // `${baseURL}/assets/${src}`
+//   // return `${baseURL}/${props.src}`
+//   return `${baseURL}/files/${props.src}`
+// })
 </script>
 
 <template>

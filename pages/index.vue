@@ -1,30 +1,24 @@
 <script lang="ts" setup>
 const storeMain = useStoreMain();
-console.log('пост', storeMain.state.posts)
+// console.log('пост', storeMain.state.posts)
+onMounted(() => {
+  storeMain.getPost()
+  storeMain.getUser()
+})
 </script>
 
 <template>
   <div class="flex flex-col">
-    <!-- <div class="flex top-0 right-0 z-99 fixed">
-      <button @click="storeMain.clearStorege" class="bg-red-100 rounded-2 p-2 text-red-500"> clearStorage </button>
-    </div> -->
     <Share/>
     <div
       v-for="p in storeMain.state.posts"
       :key="p.id"
-      class="flex flex-col px-3 news items-start relative"
+      class="news"
     > 
-      <News
-        :post="p"
-      />
-      <MySvg 
-        @click="storeMain.postDelete(p.id)" 
-        class="top-6 right-2 absolute"
-        icon="close"
-      />
-      <SocialInfo
-        :date="p"
-      />
+    <!-- <pre>{{p}}</pre> -->
+      <div class="flex flex-col w-full items-start relative">
+        <News :post="p"/>        
+      </div>
     </div>
   </div>
 </template>

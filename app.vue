@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
 const { width, height } = useWindowSize()
 const showMobileMenu = computed(() => {
@@ -17,8 +17,14 @@ const showBottonPost = computed(() => {
   }
 })
 
+const api = useStoreApi()
 const storeMain = useStoreMain()
 const route = useRoute();
+
+// const storeMain = useStsoreMain()
+onMounted(() => {
+  storeMain.getUser()
+})
 </script>
 
 <template>
@@ -58,6 +64,7 @@ const route = useRoute();
         >
           Поделиться 
         </MyButton>
+        
         <MyButton
           v-else
           @click="storeMain.state.showModal = true"
@@ -66,6 +73,7 @@ const route = useRoute();
             icon="add-post"
           />
         </MyButton>
+        <ModalUser/>
       </div>
     </div>
     <div 
@@ -84,6 +92,7 @@ const route = useRoute();
       v-if="storeMain.state.showModal" 
       @close="storeMain.state.showModal = false"
     />
+    <ModalRegistration/>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useFileDialog } from '@vueuse/core'
+import path from 'path';
 
 const { files, open, reset } = useFileDialog()
 
@@ -9,11 +10,12 @@ const props = defineProps({
   }
 })
 
-
+const api = useStoreApi()
 const storeMain = useStoreMain();
 const state = reactive({
   text: "",
   files: [] as any,
+  user_created: 'df2dd819-90fa-4b5a-bcba-aa2616777c3c',
 });
 
 
@@ -21,14 +23,14 @@ function postAdd() {
   if (!state.text || !state.files) {
     return
   }
-  console.log("postAdd");
   const postPayload = {
-    text: state.text,
-    files: state.files
-  };
-  storeMain.postAdd(postPayload);
+    description: state.text,
+    // files: state.files
+    user_created: state.user_created
+  }
+  storeMain.postPost(postPayload)
   state.text = "";
-  state.files = []
+  // state.files = []
   storeMain.state.showModal = false
 }
 const openDialog = () => {
@@ -49,8 +51,6 @@ watch(() => files.value, (to) => {
 
 <template>
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
-    <!-- {{ storeMain?.authorDefault.name }} -->
-
     <div class="flex flex-row w-full gap-2 items-center">
       <BaseImg  
         :src="storeMain?.state.user.avatarUrl"
@@ -85,6 +85,5 @@ watch(() => files.value, (to) => {
         Поделиться
       </MyButton>
     </div>
-
   </div>
 </template>

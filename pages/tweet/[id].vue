@@ -19,12 +19,12 @@ const tweet = computed(() => {
       />
       <span class="font-500 text-hex-dbdddd text-20px">Назад</span>
     </div>
-    <!-- <pre>{{ tweet }}</pre> -->
-    <News
+    <pre>{{ tweet }}</pre>
+    <!-- <News
       :post="tweet"
-    />
-    <SocialInfo
+    /> -->
+    <!-- <SocialInfo
       :date="tweet"
-    />
+    /> -->
   </div>
 </template>
