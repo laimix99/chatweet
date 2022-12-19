@@ -52,10 +52,10 @@ watch(() => files.value, (to) => {
 <template>
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <div class="flex flex-row w-full gap-2 items-center">
-      <BaseImg  
+      <!-- <BaseImg  
         :src="storeMain?.state.user.avatarUrl"
         view="avatar"
-      />
+      /> -->
       <input
         type="text"
         v-model="state.text"

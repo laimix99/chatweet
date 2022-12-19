@@ -63,7 +63,7 @@ watch(() => files.value, (to) => {
               icon="change"
             />
           </div>
-          <BaseImg 
+          <!-- <BaseImg 
             v-if="showAvatar"
             view="profile"
             :src="storeMain.state.user.avatarUrl" 
@@ -72,7 +72,7 @@ watch(() => files.value, (to) => {
             v-if="state.avatarUrl"
             view="profile"
             :src="state.avatarUrl"
-          />
+          /> -->
         </div>
         <input 
           v-model="state.name"
