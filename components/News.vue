@@ -53,9 +53,9 @@ import { onClickOutside } from '@vueuse/core'
     >
     <h1 
       class=" text-blue text-16px"
-      :style="[post.children.length ? '' : 'display: none;']"
+     
     >
-      {{post.children.length}}
+      <!-- {{post.children.length}} -->
     </h1>
       <MySvg
         icon="comment"

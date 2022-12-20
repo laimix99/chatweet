@@ -39,7 +39,7 @@ export const useStoreMain = defineStore('counter', () => {
         first_name: user.first_name,
         email: user.email,
         password: user.password,
-        role: 'def3d196-9248-4195-a724-9a2745e3cead',
+        // role: 'def3d196-9248-4195-a724-9a2745e3cead',
       },
     })
     console.log("postUser")

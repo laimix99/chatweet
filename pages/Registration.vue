@@ -1,8 +1,8 @@
 <script setup>
 const state = reactive({
-  first_name: '',
-  email: '',
-  password: '',
+  first_name: 'nik',
+  email: 'nik@gmail.com',
+  password: '9293709',
 })
 const router = useRouter()
 const storeMain = useStoreMain()
