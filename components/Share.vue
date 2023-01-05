@@ -15,7 +15,7 @@ const storeMain = useStoreMain();
 const state = reactive({
   text: "",
   files: [] as any,
-  user_created: 'df2dd819-90fa-4b5a-bcba-aa2616777c3c',
+  // user_created: 'df2dd819-90fa-4b5a-bcba-aa2616777c3c',
 });
 
 
@@ -26,7 +26,7 @@ function postAdd() {
   const postPayload = {
     description: state.text,
     // files: state.files
-    user_created: state.user_created
+    // user_created: state.user_created
   }
   storeMain.postPost(postPayload)
   state.text = "";
@@ -52,10 +52,10 @@ watch(() => files.value, (to) => {
 <template>
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <div class="flex flex-row w-full gap-2 items-center">
-      <!-- <BaseImg  
-        :src="storeMain?.state.user.avatarUrl"
+      <BaseImg  
         view="avatar"
-      /> -->
+        :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
+      />
       <input
         type="text"
         v-model="state.text"

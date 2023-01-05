@@ -12,27 +12,56 @@ const state = reactive({
   user: null,
 })
 const router = useRouter();
-async function login() {
-  try {
-    console.log(':login')
-    const { data } = await api.ftch('/auth/login', {
-      method: 'post',
-      body: {
-        // mode: 'cookie',
-        email: state.email,
-        password: state.password,
-      },
-      credentials: 'include',
-    })
-    console.log(':login data', data)
-    api.saveTokens(data)
-    router.push({ path: "/" });
+// async function login() {
+//   try {
+//     console.log(':login')
+//     const { data } = await api.ftch('/auth/login', {
+//       method: 'post',
+//       body: {
+//         // mode: 'cookie',
+//         email: state.email,
+//         password: state.password,
+//       },
+//       credentials: 'include',
+//     })
+//     console.log(':login data', data)
+//     api.saveTokens(data)
+//     router.push({ path: "/" });
+//   }
+//   catch (e: any) {
+//     console.log(':login error', e)
+//     api.removeTokens()
+//   }
+// }
+// function login() {
+//   const payloud = {
+//     email: state.email,
+//     password: state.password
+//   }
+//   storeMain.login(payloud)
+//   router.push({ path: "/" });
+// }
+async function login(user: any) {
+    try {
+      console.log(':login')
+      const { data } = await api.ftch('/auth/login', {
+        method: 'post',
+        body: {
+          // mode: 'cookie',
+          email: state.email,
+          password: state.password,
+        },
+        credentials: 'include',
+      })
+      console.log(':login data', data)
+      api.saveTokens(data)
+      router.push({ path: "/" });
+    }
+    catch (e: any) {
+      console.log(':login error', e)
+      api.removeTokens()
+    }
   }
-  catch (e: any) {
-    console.log(':login error', e)
-    api.removeTokens()
-  }
-}
 async function logout() {
   try {
     console.log(':logout start')
@@ -76,6 +105,7 @@ watch(
 onMounted(() => {
   console.log(':onMounted')
   storeMain.getUser()
+  console.log("api",api.refreshToken)
 })
 </script>
 

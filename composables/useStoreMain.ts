@@ -6,10 +6,15 @@ export const useStoreMain = defineStore('counter', () => {
 
   const state = reactive({
     user: {},
+    post: {},
+    postUser: {},
+    postUserClick: [],
     posts: [],
     myPost: [],
+    children: [],
     showModal: false,
     showEdit: false,
+    showComment: false,
     showRegistration: true,
     menu: [
       {title: 'Лента', link: '/', icon: 'ribbon'},
@@ -17,7 +22,7 @@ export const useStoreMain = defineStore('counter', () => {
       // {title: 'Авторизация', link: '/auth', icon: 'profile'},
     ],
 
-  })
+  }) as any
 
   async function getUser() {
     const path = '/users/me';
@@ -32,6 +37,17 @@ export const useStoreMain = defineStore('counter', () => {
     state.user = data;
   }
 
+  async function getPostUser(id: any) {
+    const { data } = await api.ftch(`/users/${id}/`,{
+      method: 'get',
+      query: {
+        fields: ['*.*']
+      }
+    })
+    console.log('getPostUser', data)
+    state.postUser = data
+  }
+
   async function postUser(user: any) {
     await api.ftch('/users', {
       method: 'post',
@@ -39,27 +55,27 @@ export const useStoreMain = defineStore('counter', () => {
         first_name: user.first_name,
         email: user.email,
         password: user.password,
-        // role: 'def3d196-9248-4195-a724-9a2745e3cead',
+        role: 'def3d196-9248-4195-a724-9a2745e3cead',
+        last_name: user.last_name
       },
     })
     console.log("postUser")
   }
 
-  // async function editUsers(id: string, prof: any) {
-  //   const path = `/users/${id}`
-  //   const options = {
-  //     method: 'patch',
-  //     mode: 'no-cors',
-  //     body: {
-  //       first_name: prof.name,
-  //       last_name: prof.username,
-  //       location: prof.location,
-  //       description: prof.description
-  //     }
-  //   }
-  //   const { data } = await api.ftch(path, options)
-  //   users.value = data
-  // }
+  async function editUsers(id: string, prof: any) {
+    const path = `/users/${id}`
+    const options = {
+      method: 'PATCH',
+      body: {
+        first_name: prof.name,
+        last_name: prof.username,
+        location: prof.location,
+        description: prof.description
+      }
+    }
+    await api.ftch(path, options)
+    getUser()
+  }
 
   async function getPost() {
     const { data } = await api.ftch('/items/posts', {
@@ -79,12 +95,23 @@ export const useStoreMain = defineStore('counter', () => {
     state.posts = data;
   }
 
+  async function getSelectedPost(id: any) {
+    const {data} = await api.ftch(`/items/posts/${id}`, {
+      method: 'get',
+      query: {
+        fields: ['*.*'],
+      }
+    })
+    state.post = data
+  }
+
   async function getMyPosts(id: any) {
     const { data } = await api.ftch('/items/posts', {
       method: 'get',
       query: {
         fields: ['*.*'],
         filter: {
+          parent: { _null: true },
           user_created: { _eq: id },
           status: 'published'
         },
@@ -94,7 +121,24 @@ export const useStoreMain = defineStore('counter', () => {
     })
     state.myPost = data
     console.log("getMyPosts", data)
-    // getUser()
+  }
+
+  async function getPostUserClick(id: any) {
+    const { data } = await api.ftch('/items/posts', {
+      method: 'get',
+      query: {
+        fields: ['*.*'],
+        filter: {
+          parent: { _null: true },
+          user_created: { _eq: id },
+          status: 'published'
+        },
+        limit: -1,
+        sort: ['-date_created'],
+      }
+    })
+    state.postUserClick = data
+    console.log("getMyPosts", data)
   }
 
   async function postPost(post: any) {
@@ -111,11 +155,14 @@ export const useStoreMain = defineStore('counter', () => {
   async function deletePost(id: string) {
     if (confirm('Удалить пост ?')) {
       await api.ftch(`items/posts/${id}`, {
-        method: 'delete'
+        method: 'PATCH',
+        body: {
+          status: 'archived'
+        }
       })
     }
-    // getPost()
-    getMyPosts(id)
+    getPost()
+    // getMyPosts(id)
   }
   async function getComment(id: any) {
     const { data } = await api.ftch('/items/posts', {
@@ -125,7 +172,6 @@ export const useStoreMain = defineStore('counter', () => {
         filter: {
           parent: {_eq: id}
         },
-        // sort: ['-date_created'],
         limit: -1,
       }
     })
@@ -136,12 +182,28 @@ export const useStoreMain = defineStore('counter', () => {
     }
   }
 
+  async function getSelectedComment(id: any) {
+    const { data } = await api.ftch('/items/posts', {
+      method: 'get',
+      query: {
+        fields: ['*.*'],
+        filter: {
+          parent: {_eq: id}
+        },
+        limit: -1,
+      }
+    })
+    console.log('getComment', data)
+    state.children = data
+  }
+
   async function postComment(comment: any) {
     await api.ftch('/items/posts', {
       method: 'post',
       body: {
         description: comment.description,
-        parent: comment.parent
+        parent: comment.parent,
+        status: 'published',
       }
     })
     getComment(comment.parent);
@@ -159,10 +221,53 @@ export const useStoreMain = defineStore('counter', () => {
       console.log('deleteComment')
   }
   
+  async function login(user: any) {
+    try {
+      console.log(':login')
+      const { data } = await api.ftch('/auth/login', {
+        method: 'post',
+        body: {
+          // mode: 'cookie',
+          email: user.email,
+          password: user.password,
+        },
+        credentials: 'include',
+      })
+      console.log(':login data', data)
+      api.saveTokens(data)
+      // router.push({ path: "/" });
+    }
+    catch (e: any) {
+      console.log(':login error', e)
+      api.removeTokens()
+    }
+  }
+
+  async function logout() {
+    try {
+      console.log(':logout start')
+      const { data } = await api.ftch('/auth/logout', {
+        method: 'post',
+        body: {
+          // mode: 'cookie',
+          refresh_token: api.refreshToken,
+        },
+        // credentials: 'include',
+      })
+      console.log(':logout data', data)
+      api.removeTokens()
+      // storeMain.state.user = []
+    }
+    catch (e: any) {
+      console.log(':logout error', e)
+      api.removeTokens()
+    }
+  }
+
   return {
     state,
 
-    // editUsers,
+    editUsers,
     deletePost,
     postPost,
     getPost,
@@ -171,6 +276,12 @@ export const useStoreMain = defineStore('counter', () => {
     postComment,
     deleteComment,
     postUser,
+    login,
+    logout,
+    getSelectedPost,
+    getSelectedComment,
+    getPostUser,
     getMyPosts,
+    getPostUserClick,
   };
 });

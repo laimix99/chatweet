@@ -19,7 +19,7 @@ const props = defineProps({
   <div class="flex flex-col w-full py-2 gap-5 social-info">
     <!-- <pre>{{id_post}}</pre> -->
     <div class="w-full" v-for="comment in props.comments">
-      <Comments :post_id="id_post" :comment="comment"/>
+      <Comments :post_id="id_post"  :comment="comment"/>
     </div>
     <SendComment :id_post="id_post"/>
   </div>

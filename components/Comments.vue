@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 const props = defineProps({
   post_id: {
     type: Number,
@@ -16,9 +16,13 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col px-5 ">
+    <!-- <pre class="text-white">{{ comment }}</pre> -->
     <div class="flex flex-col pb-3 gap-4 comment relative">
       <div class="flex flex-row gap-2 items-center">
-        <img src="" class="h-30px w-30px" alt="">
+        <BaseImg
+          view="comment"
+          :src="`https://mfvcni0p.directus.app/assets/${comment.user_created.avatar}.png`"
+        />
         <h1 class="text-hex-dbdddd text-16px">{{ comment.user_created.first_name }}</h1>
         <h1 class="text-hex-dbdddd text-16px" >{{ comment.user_created.last_name }}</h1>
       </div>
@@ -39,4 +43,4 @@ onMounted(() => {
   .comment {
     border-bottom: 0.5px solid #2f3335;
   }
-</style>
+</style> -->

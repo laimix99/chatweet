@@ -17,7 +17,14 @@ onMounted(() => {
     > 
     <!-- <pre>{{p}}</pre> -->
       <div class="flex flex-col w-full items-start relative">
-        <News :post="p"/>        
+        <News 
+          :post="p"
+        />  
+        <MySvg 
+          class="cursor-pointer top-6 right-2 absolute"
+          icon="close"
+          @click="storeMain.deletePost(p.id)"
+        />    
       </div>
     </div>
   </div>

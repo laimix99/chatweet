@@ -25,7 +25,7 @@ function isEmptyObj(object) {
     <div class="flex flex-row rounded-16px w-full max-w-200px py-2 px-4 gap-2 user relative items-center box-border">
       <BaseImg
         view="avatar"
-        class="br"
+        :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
       />
       <div class="flex flex-col items-start">
         <h1 class="text-hex-dbdddd text-18px">{{storeMain.state.user.first_name}}</h1>
