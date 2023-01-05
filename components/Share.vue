@@ -60,7 +60,7 @@ watch(() => files.value, (to) => {
         type="text"
         v-model="state.text"
         placeholder="Что нового ?"
-        class="h-auto bg-hex-191919 h-100px text-hex-dbdddd w-full"
+        class="h-auto bg-hex-191919 h-100px text-hex-dbdddd w-full text-16px"
         :style="{background: props.color}"
         @keyup.enter="postAdd()"
       />

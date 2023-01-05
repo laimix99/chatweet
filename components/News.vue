@@ -21,17 +21,14 @@ import { onClickOutside } from '@vueuse/core'
 
 <template>
   <div ref="target" class="flex flex-col w-full px-2 box-border">
-    <div class="flex flex-row w-full py-20px items-start">
-      <div class="w-2/9" lg="w-1/9">
-        <!-- <pre>{{ post.user_created.id }}</pre> -->
-        <BaseImg
-          view="avatar"
-          :src="`https://mfvcni0p.directus.app/assets/${post.user_created.avatar}.png`"
-        />
-      </div>
+    <div class="flex flex-row w-full py-20px gap-3 items-start">
+      <BaseImg
+        view="avatar"
+        :src="`https://mfvcni0p.directus.app/assets/${post.user_created.avatar}.png`"
+      />
       <div 
-        class=" flex flex-col w-7/9 items-start"
-        lg="w-8/9"
+        class=" flex flex-col  items-start"
+ 
       >
         <NuxtLink 
           :to="`/user/${post.user_created?.id}`"
