@@ -21,6 +21,7 @@ import { onClickOutside } from '@vueuse/core'
 
 <template>
   <div ref="target" class="flex flex-col w-full px-2 box-border">
+    <!-- <pre class="text-red-500">{{ post }}</pre> -->
     <div class="flex flex-row w-full py-20px gap-3 items-start">
       <BaseImg
         view="avatar"
@@ -44,10 +45,11 @@ import { onClickOutside } from '@vueuse/core'
         >
           <h2 class="font-500 text-hex-dbdddd text-left text-15px leading-10px" lg="text-18px">{{ post.description }}</h2>
           <div class="flex flex-row gap-2">
-            <!-- <BaseImgs
-              :src="`https://mfvcni0p.directus.app/assets/${post.images.id}.png`"
+            <BaseImg
+              v-if="post.images"
+              :src="`https://mfvcni0p.directus.app/assets/${post.images?.id}.png`"
               view="post"
-            /> -->
+            />
           </div>
         </NuxtLink>
       </div>
