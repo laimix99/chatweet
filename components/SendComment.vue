@@ -50,7 +50,7 @@ async function postComment() {
 </script>
 
 <template>
-  <pre class="text-red-500">{{ id_post }}</pre>
+  <!-- <pre class="text-red-500">{{ id_post }}</pre> -->
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <div class="flex flex-row w-full gap-2 items-center">
       <BaseImg  

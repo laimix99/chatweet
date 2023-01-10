@@ -26,35 +26,33 @@ function read() {
       <!-- <pre class="text-white">{{ storeMain.state.followings }}</pre> -->
       <!-- <pre class="text-red-500">{{ user }}</pre> -->
       <div class="flex flex-col w-full items-start">
-        <div class="flex flex-col w-full items-start">
-          <BaseImg 
-            v-if="isMe"
-            view="profile"
-            :src="`https://mfvcni0p.directus.app/assets/${user.avatar}.png`"
+        <BaseImg 
+          v-if="isMe"
+          view="profile"
+          :src="`https://mfvcni0p.directus.app/assets/${user.avatar}.png`"
+        />
+        <BaseImg 
+          v-else
+          view="profile"
+          :src="`https://mfvcni0p.directus.app/assets/${user.avatar?.id}.png`"
+        />
+        <h1 class=" font-700 mt-2 text-hex-dbdddd text-25px">{{ user.first_name }}</h1>
+        <span class="font-400 text-hex-dbdddd opacity-40 text-13px">{{ user.last_name }}</span>
+        <p class=" font-700 mt-2 text-hex-dbdddd text-15px">{{ user.description }}</p>
+        <div 
+          class="flex flex-row mt-2 items-center"
+        >
+          <MySvg
+            icon="location"
           />
-          <BaseImg 
-            v-else
-            view="profile"
-            :src="`https://mfvcni0p.directus.app/assets/${user.avatar?.id}.png`"
-          />
-          <h1 class=" font-700 mt-2 text-hex-dbdddd text-25px">{{ user.first_name }}</h1>
-          <span class="font-400 text-hex-dbdddd opacity-40 text-13px">{{ user.last_name }}</span>
-          <p class=" font-700 mt-2 text-hex-dbdddd text-15px">{{ user.description }}</p>
-          <div 
-            class="flex flex-row mt-2 items-center"
-          >
-            <MySvg
-              icon="location"
-            />
-            <p class="font-700 text-hex-dbdddd  text-13px" >{{ user.location }}</p>
-          </div>
-          <!-- <a 
-            class="mt-2 text-hex-07485B text-14px no-underline hover:underline "
-            :href="storeMain.state.user.web_site"
-          >
-            {{ storeMain.state.user.web_site }}
-          </a> -->
+          <p class="font-700 text-hex-dbdddd  text-13px" >{{ user.location }}</p>
         </div>
+        <!-- <a 
+          class="mt-2 text-hex-07485B text-14px no-underline hover:underline "
+          :href="storeMain.state.user.web_site"
+        >
+          {{ storeMain.state.user.web_site }}
+        </a> -->
       </div>
       <MyButton 
         v-if="isMe"
