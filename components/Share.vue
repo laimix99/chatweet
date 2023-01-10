@@ -43,7 +43,7 @@ watch(() => files.value, (to) => {
     const lastFile = to[filesLength - 1]
     const url = URL.createObjectURL(lastFile)
     state.files.push({ url: url, file: lastFile })
-    console.log('file', state.files)
+    console.log(state.files)
   }
 })
 

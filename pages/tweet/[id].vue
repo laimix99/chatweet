@@ -12,7 +12,6 @@ function prev() {
 //   const tweet = storeMain.state.posts.find((post) => post.id == route.params.id)
 //   return tweet
 // });
-
 onMounted(() => {
   // console.log('POST',storeMain.state.post.user_created)
   storeMain.getSelectedPost(route.params.id)
@@ -35,13 +34,11 @@ onMounted(() => {
       />
       <span class="font-500 text-hex-dbdddd text-20px">Назад</span>
     </div>
-    <!-- <pre class="text-blue" >{{ storeMain.state.post.children }}</pre> -->
     <News
       :post="storeMain.state.post"
       class="post"
     />
     <div v-for="children in storeMain.state.children">
-      <!-- <pre>{{ children }}</pre> -->
       <News
       :post="children"
       class="comment"

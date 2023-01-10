@@ -8,6 +8,8 @@ export const useStoreMain = defineStore('counter', () => {
     user: {},
     post: {},
     postUser: {},
+    followings: [],
+    followers: [],
     postUserClick: [],
     posts: [],
     myPost: [],
@@ -95,6 +97,43 @@ export const useStoreMain = defineStore('counter', () => {
     state.posts = data;
   }
 
+  async function getFollowing(id: any) {
+    const { data } = await api.ftch('/items/follows/', {
+      method: 'get',
+      query: {
+        fields: [ '*.*' ],
+        filter: {
+          user:  { _eq: id },
+        }
+      }
+    })
+    state.followings = data
+  }
+
+  async function postFollowing(user_id: any) {
+    await api.ftch('/items/follows/', {
+      method: 'post',
+      body: {
+        user: state.user.id,
+        follower: user_id
+      }
+    })
+    console.log(':postFollowing')
+  }
+
+  async function getFollowers(id: any) {
+    const {data} = await api.ftch('/items/follows/', {
+      method: 'get',
+      query: {
+        fields: [ '*.*' ],
+        filter: {
+          follower:  { _eq: id },
+        }
+      }
+    })
+    state.followers = data
+  }
+
   async function getSelectedPost(id: any) {
     const {data} = await api.ftch(`/items/posts/${id}`, {
       method: 'get',
@@ -162,6 +201,7 @@ export const useStoreMain = defineStore('counter', () => {
       })
     }
     getPost()
+    // getSelectedComment(id)
     // getMyPosts(id)
   }
   async function getComment(id: any) {
@@ -188,7 +228,8 @@ export const useStoreMain = defineStore('counter', () => {
       query: {
         fields: ['*.*'],
         filter: {
-          parent: {_eq: id}
+          parent: {_eq: id},
+          status: 'published'
         },
         limit: -1,
       }
@@ -209,16 +250,6 @@ export const useStoreMain = defineStore('counter', () => {
     getComment(comment.parent);
     // getPost()
     console.log(':postComment', comment.parent)
-  }
-
-  async function deleteComment(id: string, post_id: string) {
-    // if (confirm('Удалить пост ?')) {}
-      await api.ftch(`items/posts/${id}`, {
-        method: 'delete',
-      });
-      getComment(post_id)
-      // getPost()
-      console.log('deleteComment')
   }
   
   async function login(user: any) {
@@ -264,6 +295,17 @@ export const useStoreMain = defineStore('counter', () => {
     }
   }
 
+  async function getLikes(id: any) {
+    const { data } = await api.ftch('/items/likes/', {
+      method: 'get',
+      query: {
+        filter: {
+          post: {_eq: id},
+        }
+      }
+    })
+  }
+
   return {
     state,
 
@@ -274,7 +316,7 @@ export const useStoreMain = defineStore('counter', () => {
     getUser,
     getComment,
     postComment,
-    deleteComment,
+    // deleteComment,
     postUser,
     login,
     logout,
@@ -283,5 +325,8 @@ export const useStoreMain = defineStore('counter', () => {
     getPostUser,
     getMyPosts,
     getPostUserClick,
+    getFollowing,
+    getFollowers,
+    postFollowing,
   };
 });

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<!-- <script lang="ts" setup>
 const props = defineProps({
   user: {
     type: Object,
@@ -22,4 +22,4 @@ const props = defineProps({
 .news {
   border-bottom: 1px solid #2f3335 ;
 }
-</style>
+</style> -->

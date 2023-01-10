@@ -2,21 +2,32 @@
 
 const state = reactive({
   tabs: [
-    {name: 'Читатетли', click: 'readers'},
-    {name: 'Читаю', click: 'read'},
+    {name: 'Читаю', click: 'followings'},
+    {name: 'Читатели', click: 'followers'},
   ],
-  currentTab: ref('readers')
+  currentTab: ref('followings')
 })
+
+const route = useRoute();
+const router = useRouter();
+
+const storeMain = useStoreMain()
+
 const setTab = (v) => {
   state.currentTab = v
   console.log('таб',state.currentTab)
 } 
-// const route = useRoute();
-const router = useRouter();
+onMounted(() => {
+  storeMain.getFollowing(storeMain.state.user.id)
+  storeMain.getFollowers(storeMain.state.user.id)
+})
 </script>
 
 <template>
   <div class="flex flex-col w-full px-2 pt-10px items-start box-border">
+    <!-- <pre>{{ route }}</pre> -->
+    <!-- <pre class="text-red-400">{{ router }}</pre> -->
+    <!-- <pre class="text-red-500">{{ storeMain.state.followers }}</pre> -->
     <div 
       class="cursor-pointer flex flex-row pb-10px gap-3 items-center"
       @click="router.back()"
@@ -38,9 +49,18 @@ const router = useRouter();
         {{ tab.name }}
       </h1>
     </div>
-    <Readers v-if="state.currentTab === 'readers'" />
-    <Read  v-if="state.currentTab === 'read'" />
-    <!-- <pre class="text-red-600">{{route}}</pre> -->
+    <Followings 
+      v-if="state.currentTab === 'followings'" 
+      v-for="following in storeMain.state.followings"
+      :follower="following"
+      
+    />
+    <Followers  
+      v-if="state.currentTab === 'followers'" 
+      v-for="follower in storeMain.state.followers"
+      :follower="follower"
+    />
+    <!-- <pre class="text-red-600">{{storeMain.state.followers}}</pre> -->
   </div>
 </template>
 

@@ -28,20 +28,6 @@ function addComment() {
 </script>
 
 <template>
-  <!-- <div class="flex flex-row w-full gap-4 items-center">
-    <BaseImg
-      view="avatar"
-      :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
-    />
-    <input 
-      class=" h-auto bg-hex-191919 rounded-16px h-100px text-hex-dbdddd w-full py-3 pl-2"
-      placeholder="Написать комментарий" 
-      v-model="state.descriptionComment" 
-      @keyup.enter="addComment()" 
-      type="text"
-    >
-    <MySvg icon="send" @click="addComment()">ответить</MySvg>
-  </div> -->
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <div class="flex flex-row w-full gap-2 items-center">
       <BaseImg  

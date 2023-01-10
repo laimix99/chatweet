@@ -6,8 +6,8 @@ const accessToken = ref(null)
 const accessTokenExpires = ref(null)
 const refreshToken = ref(null)
 const state = reactive({
-  email: '',
-  password: '',
+  email: 'maksim.tchava@yandex.ru',
+  password: 'Il3zuVyiHKzOCHegxOtEvyH0',
   loginLoading: false,
   user: null,
 })

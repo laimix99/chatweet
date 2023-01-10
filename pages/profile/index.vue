@@ -18,16 +18,9 @@ onMounted(() => {
       :key="p.id"
       class="w-full news"
     > 
-      <div class="flex flex-col w-full items-start relative">
-        <News 
-          :post="p"
-        />  
-        <MySvg 
-          class="cursor-pointer top-6 right-2 absolute"
-          icon="close"
-          @click="storeMain.deletePost(p.id)"
-        />    
-      </div>
+      <News 
+        :post="p"
+      />    
     </div>
   </div>
 </template>

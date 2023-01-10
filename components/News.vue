@@ -11,18 +11,29 @@ import { onClickOutside } from '@vueuse/core'
     },
   })
   const storeMain = useStoreMain()
-  const target = ref()
+  const children = ref([])
   const showComment = ref(false)
-  onClickOutside(target, (event) => showComment.value = false)
+  const isMe = computed(() => {
+    return storeMain.state.user.id === props.post.user_created.id
+  })
+
+
+  for (var obj of props.post.children) {
+    if (obj.status === 'published') {
+      children.value.push(obj)
+    }
+  }
+
   onMounted(() => {
     storeMain.getComment(props.post.id)
   })
 </script>
 
 <template>
-  <div ref="target" class="flex flex-col w-full px-2 box-border">
+  <div class="flex flex-col w-full px-2 box-border">
     <!-- <pre class="text-red-500">{{ post }}</pre> -->
-    <div class="flex flex-row w-full py-20px gap-3 items-start">
+    <!-- <pre class="text-white">{{ post.children }}</pre> -->
+    <div class="flex flex-row w-full py-20px gap-3 relative items-start">
       <BaseImg
         view="avatar"
         :src="`https://mfvcni0p.directus.app/assets/${post.user_created.avatar}.png`"
@@ -53,18 +64,24 @@ import { onClickOutside } from '@vueuse/core'
           </div>
         </NuxtLink>
       </div>
+      <MySvg 
+        v-if="isMe"
+        class="cursor-pointer right-0 absolute"
+        icon="close"
+        @click="storeMain.deletePost(post.id)"
+      />    
     </div>
     <div 
       v-if="props.socialInfo"
       class="cursor-pointer flex flex-row w-full gap-1 justify-center items-center "
       @click="showComment = !showComment"
     >
-    <h1 
-      class=" text-blue text-16px"
-      :style="[post.children?.length ? '' : 'display: none;']"
-    >
-      {{post.children?.length}}
-    </h1>
+      <h1 
+        class=" text-blue text-16px"
+        :style="[children?.length ? '' : 'display: none;']"
+      >
+        {{children.length }}
+      </h1>
       <MySvg
         icon="comment"
       />

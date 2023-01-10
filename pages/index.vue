@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 const storeMain = useStoreMain();
-// console.log('пост', storeMain.state.posts)
 onMounted(() => {
   storeMain.getPost()
   storeMain.getUser()
@@ -15,17 +14,9 @@ onMounted(() => {
       :key="p.id"
       class="news"
     > 
-    <!-- <pre>{{p}}</pre> -->
-      <div class="flex flex-col w-full items-start relative">
-        <News 
-          :post="p"
-        />  
-        <MySvg 
-          class="cursor-pointer top-6 right-2 absolute"
-          icon="close"
-          @click="storeMain.deletePost(p.id)"
-        />    
-      </div>
+      <News 
+        :post="p"
+      />  
     </div>
   </div>
 </template>

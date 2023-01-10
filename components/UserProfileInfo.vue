@@ -5,18 +5,26 @@ const props = defineProps({
     default: () => {}
   },
 })
+const storeMain = useStoreMain()
 const isMe = computed(() => {
   return storeMain.state.user.id === props.user?.id
 })
-  const storeMain = useStoreMain()
+
+function read() {
+  storeMain.postFollowing(props.user.id)
+}
+
   onMounted(() => {
+    storeMain.getFollowing(props.user.id)
+    storeMain.getFollowers(props.user.id)
   })
 </script>
 
 <template>
   <div class="flex flex-col w-full py-5 items-center profile">
     <div class="flex flex-row w-full items-center justify-between">
-      <!-- <pre class="text-white">{{user}}</pre> -->
+      <!-- <pre class="text-white">{{ storeMain.state.followings }}</pre> -->
+      <!-- <pre class="text-red-500">{{ user }}</pre> -->
       <div class="flex flex-col w-full items-start">
         <div class="flex flex-col w-full items-start">
           <BaseImg 
@@ -48,10 +56,6 @@ const isMe = computed(() => {
           </a> -->
         </div>
       </div>
-      <div class="flex flex-col">
-        <!-- <pre class="text-red-400">{{ storeMain.state.user.id }}</pre> -->
-        <!-- <pre class="text-green-400"> {{ params }}</pre> -->
-      </div>
       <MyButton 
         v-if="isMe"
         @click="storeMain.state.showEdit = true"
@@ -60,6 +64,7 @@ const isMe = computed(() => {
       </MyButton>
       <MyButton
         v-else
+        @click="read()"
       >
         Читать
       </MyButton>
@@ -70,8 +75,18 @@ const isMe = computed(() => {
     </div>
     <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 items-start">
       <!-- <h1 class="font-400 text-13px">Дата рождения: {{ storeMain.state.user.dateOfBirth }}</h1> -->
-      <!-- <NuxtLink to="/follower" class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline ">40 в читаемых</NuxtLink>
-      <NuxtLink to="/follower" class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline">50 читателей</NuxtLink> -->
+      <NuxtLink 
+        :to="`${$route.path}/following`" 
+        class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
+      >
+        {{ storeMain.state.followings?.length }} в читаемых
+      </NuxtLink>
+      <NuxtLink 
+        :to="`${$route.path}/followers`" 
+        class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
+      >
+        {{ storeMain.state.followers?.length }} читателей
+      </NuxtLink>
     </div>
   </div>
 </template>
