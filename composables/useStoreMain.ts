@@ -13,7 +13,8 @@ export const useStoreMain = defineStore('counter', () => {
     postUserClick: [],
     posts: [],
     myPost: [],
-    children: [],
+    comments: [],
+    myComments: [],
     showModal: false,
     showEdit: false,
     showComment: false,
@@ -21,11 +22,9 @@ export const useStoreMain = defineStore('counter', () => {
     menu: [
       {title: 'Лента', link: '/', icon: 'ribbon'},
       {title: 'Профиль', link: '/profile', icon: 'profile'},
-      // {title: 'Авторизация', link: '/auth', icon: 'profile'},
     ],
 
   }) as any
-
   async function getUser() {
     const path = '/users/me';
     const options = {
@@ -134,6 +133,8 @@ export const useStoreMain = defineStore('counter', () => {
     state.followers = data
   }
 
+
+
   async function getSelectedPost(id: any) {
     const {data} = await api.ftch(`/items/posts/${id}`, {
       method: 'get',
@@ -216,6 +217,7 @@ export const useStoreMain = defineStore('counter', () => {
       }
     })
     console.log('getComment', data)
+    // state.myComments = data
     const indexPost = state.posts.findIndex((post: any) => post.id === id)
     if(indexPost >= 0) {
       state.posts[indexPost].children = data
@@ -235,7 +237,7 @@ export const useStoreMain = defineStore('counter', () => {
       }
     })
     console.log('getComment', data)
-    state.children = data
+    state.comments = data
   }
 
   async function postComment(comment: any) {
@@ -295,16 +297,6 @@ export const useStoreMain = defineStore('counter', () => {
     }
   }
 
-  async function getLikes(id: any) {
-    const { data } = await api.ftch('/items/likes/', {
-      method: 'get',
-      query: {
-        filter: {
-          post: {_eq: id},
-        }
-      }
-    })
-  }
 
   return {
     state,
@@ -316,7 +308,6 @@ export const useStoreMain = defineStore('counter', () => {
     getUser,
     getComment,
     postComment,
-    // deleteComment,
     postUser,
     login,
     logout,

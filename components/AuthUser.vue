@@ -6,8 +6,8 @@ const accessToken = ref(null)
 const accessTokenExpires = ref(null)
 const refreshToken = ref(null)
 const state = reactive({
-  email: 'maksim.tchava@yandex.ru',
-  password: 'Il3zuVyiHKzOCHegxOtEvyH0',
+  email: '',
+  password: '',
   loginLoading: false,
   user: null,
 })
@@ -122,13 +122,15 @@ onMounted(() => {
     >
       <input 
         v-model="state.email" 
-        type="text" 
+        type="email" 
+        name="email" 
+        autocomplete="on"
         placeholder="Email" 
         class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"
       >
       <input 
         v-model="state.password" 
-        type="text" 
+        type="password" 
         placeholder="Password" 
         class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"
         @keyup.enter="login()"

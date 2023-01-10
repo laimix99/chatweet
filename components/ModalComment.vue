@@ -7,7 +7,7 @@ const props = defineProps({
   post: {
     type: Object,
     default: {}
-  }
+  },
 })
 </script>
 
@@ -26,7 +26,9 @@ const props = defineProps({
         :socialInfo="false"
       />
 
-      <SendComment :id_post="id_post"/>
+      <SendComment 
+        :id_post="id_post"  
+      />
     </div>
   </div>
 </template>

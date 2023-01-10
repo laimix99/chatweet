@@ -4,30 +4,47 @@
 const route = useRoute();
 const router = useRouter();
 const storeMain = useStoreMain(); 
-function prev() {
-  router.back()
-  storeMain.state.post = []
+const api = useStoreApi()
+
+
+const state = reactive({
+  post: {},
+})
+
+async function getSelectedPost() {
+  const {data} = await api.ftch(`/items/posts/${route.params.id}`, {
+    method: 'get',
+    query: {
+      fields: ['*.*'],
+    }
+  })
+  state.post = data
 }
+
+function back() {
+  router.back()
+  storeMain.state.comment = []
+}
+
 // const tweet = computed(() => {
 //   const tweet = storeMain.state.posts.find((post) => post.id == route.params.id)
 //   return tweet
 // });
 onMounted(() => {
-  // console.log('POST',storeMain.state.post.user_created)
-  storeMain.getSelectedPost(route.params.id)
+  getSelectedPost()
   storeMain.getSelectedComment(route.params.id)
-  // storeMain.getSelectedComment(route.params.id)
 })
 </script>
 
 <template>
+  <!-- <pre >{{ route.params.id}}</pre> -->
   <div 
-    v-if="storeMain.state.post && storeMain.state.post.user_created && storeMain.state.post.children" 
+    v-if="state.post && state.post.user_created && storeMain.state.comments" 
     class="flex flex-col w-full px-3 box-border"
   >
     <div
       class="cursor-pointer flex flex-row gap-3 items-center"
-      @click="prev()"
+      @click="back()"
     >
       <MySvg
         icon="prev"
@@ -35,12 +52,12 @@ onMounted(() => {
       <span class="font-500 text-hex-dbdddd text-20px">Назад</span>
     </div>
     <News
-      :post="storeMain.state.post"
+      :post="state.post"
       class="post"
     />
-    <div v-for="children in storeMain.state.children">
+    <div v-for="comment in storeMain.state.comments">
       <News
-      :post="children"
+      :post="comment"
       class="comment"
     />
     </div>

@@ -1,33 +1,56 @@
 <script setup>
+
+
+const props = defineProps({
+  id_post: {
+    type: Number,
+  },
+})
+
 const storeMain = useStoreMain()
+const api = useStoreApi()
 
 const state = reactive({
   descriptionComment: '',
   parent: props.id_post
 })
 
-const props = defineProps({
-  id_post: {
-    type: Number,
+async function postComment() {
+    await api.ftch('/items/posts', {
+      method: 'post',
+      body: {
+        description: state.descriptionComment,
+        parent: state.parent,
+        status: 'published',
+      }
+    })
+    // getComment(comment.parent);
+    // getPost()
+    storeMain.getSelectedComment(props.id_post)
+    state.descriptionComment = ''
+    console.log(':postComment')
   }
-})
 
-function addComment() {
-  if (!state.descriptionComment) {
-    return
-  }
-  const payloud = {
-    description: state.descriptionComment,
-    parent: state.parent,
-  }
-  storeMain.postComment(payloud)
-  state.descriptionComment = ''
-  storeMain.getComment(props.id_post)
-}
+  onMounted(() => {
+    console.log(props.show_comment, 'состояние')
+  })
+// function addComment() {
+//   if (!state.descriptionComment) {
+//     return
+//   }
+//   const payloud = {
+//     description: state.descriptionComment,
+//     parent: state.parent,
+//   }
+//   storeMain.postComment(payloud)
+//   state.descriptionComment = ''
+//   storeMain.getComment(props.id_post)
+// }
 
 </script>
 
 <template>
+  <pre class="text-red-500">{{ id_post }}</pre>
   <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
     <div class="flex flex-row w-full gap-2 items-center">
       <BaseImg  
@@ -39,7 +62,7 @@ function addComment() {
         v-model="state.descriptionComment"
         placeholder="Что нового ?"
         class="bg-black h-auto h-100px text-hex-dbdddd w-full"
-        @keyup.enter="addComment()"
+        @keyup.enter="postComment()"
       />
     </div>
     <div class="flex flex-row mt-20px w-full items-start justify-between">
@@ -58,7 +81,7 @@ function addComment() {
           />
         </div>
       </div>
-      <MyButton @click="addComment()">
+      <MyButton @click="postComment()">
         Поделиться
       </MyButton>
     </div>

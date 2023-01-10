@@ -9,30 +9,95 @@ import { onClickOutside } from '@vueuse/core'
       type: Boolean,
       default: true,
     },
+
   })
+  
   const storeMain = useStoreMain()
-  const children = ref([])
-  const showComment = ref(false)
-  const isMe = computed(() => {
-    return storeMain.state.user.id === props.post.user_created.id
+  const api = useStoreApi()
+
+  // const children = ref([])
+  const showComment = ref(false) 
+
+  const state = reactive({
+    isMine: computed(() => {
+      return storeMain.state.user.id === props.post.user_created.id
+    }),
+    likes: [],
+    comments: [],
+    showComment: false,
+    myLikes: computed(() => {
+      return state.likes.filter((like) => {
+        return like.user.id === storeMain.state.user.id
+      })
+    }),
+    isLiked: computed(() => {
+      return state.myLikes.length > 0
+    })
   })
 
+  async function getLikes() {
+    const { data } = await api.ftch('/items/likes/', {
+      method: 'get',
+      query: {
+        fields: [ '*.*' ],
+        filter: {
+          post:  { _eq: props.post.id },
+        },
+      }
+    })
+    state.likes = data
+    console.log('getLikes', data)
+  }
 
-  for (var obj of props.post.children) {
-    if (obj.status === 'published') {
-      children.value.push(obj)
-    }
+
+  async function like() {
+    if (state.isLiked) return 
+    await api.ftch('/items/likes', {
+      method: 'post',
+      body: {
+        post: props.post.id,
+        user: storeMain.state.user.id
+      }
+    })
+    getLikes()
+  }
+  
+  async function unLike() {
+   await Promise.all(
+    state.myLikes.map(async (like) => {
+      await api.ftch(`/items/likes/${like.id}`, { method: 'delete' })
+    })
+    )
+    getLikes(props.post.id)
+  }
+
+  async function getComment() {
+    const { data } = await api.ftch('/items/posts', {
+      method: 'get',
+      query: {
+        fields: ['*.*'],
+        filter: {
+          parent: {_eq: props.post.id},
+          status: 'published'
+        },
+        limit: -1,
+      }
+    })
+    console.log('getComment', data)
+    state.comments = data
   }
 
   onMounted(() => {
-    storeMain.getComment(props.post.id)
+    // storeMain.getComment(props.post.id)
+    getLikes()
+    getComment()
   })
 </script>
 
 <template>
-  <div class="flex flex-col w-full px-2 box-border">
+  <div v-if="props.post" class="flex flex-col w-full px-2 box-border">
     <!-- <pre class="text-red-500">{{ post }}</pre> -->
-    <!-- <pre class="text-white">{{ post.children }}</pre> -->
+    <!-- <pre class="text-white">{{ state.comment }}</pre> -->
     <div class="flex flex-row w-full py-20px gap-3 relative items-start">
       <BaseImg
         view="avatar"
@@ -65,7 +130,7 @@ import { onClickOutside } from '@vueuse/core'
         </NuxtLink>
       </div>
       <MySvg 
-        v-if="isMe"
+        v-if="state.isMine"
         class="cursor-pointer right-0 absolute"
         icon="close"
         @click="storeMain.deletePost(post.id)"
@@ -73,22 +138,42 @@ import { onClickOutside } from '@vueuse/core'
     </div>
     <div 
       v-if="props.socialInfo"
-      class="cursor-pointer flex flex-row w-full gap-1 justify-center items-center "
-      @click="showComment = !showComment"
+      class="cursor-pointer flex flex-row w-full gap-5 justify-center items-center "
     >
-      <h1 
-        class=" text-blue text-16px"
-        :style="[children?.length ? '' : 'display: none;']"
+      <div 
+        class="flex flex-row gap-1 items-center"
+        @click="state.showComment = !state.showComment"
       >
-        {{children.length }}
-      </h1>
-      <MySvg
-        icon="comment"
-      />
+        <h1 
+          class=" text-blue text-16px"
+          :style="[state.comments?.length ? '' : 'display: none;']"
+        >
+          {{state.comments?.length }}
+        </h1>
+        <MySvg
+          icon="comment"
+        />
+      </div>
+      <div 
+        class="flex flex-row gap-1 items-center"
+        @click="state.isLiked ? unLike() : like()"
+      >
+        <h1
+          class=" text-red text-16px"
+          :style="[state.likes?.length ? '' : 'display: none;']"
+        >
+          {{ state.likes?.length }}
+        </h1>
+        <MySvg
+          icon="like"
+        />
+      </div>
+      <!-- <pre class="text-green-500">{{ state.likes }}</pre> -->
     </div>
     <ModalComment
-      v-if="showComment"
-      @close="showComment = false"
+      v-if="state.showComment"
+      @close="state.showComment = false"
+      :show_comment="state.showComment"
       :id_post="post.id"
       :post="post"
     />
