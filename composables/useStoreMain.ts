@@ -7,10 +7,8 @@ export const useStoreMain = defineStore('counter', () => {
   const state = reactive({
     user: {},
     post: {},
-    postUser: {},
     followings: [],
     followers: [],
-    postUserClick: [],
     posts: [],
     myPost: [],
     comments: [],
@@ -38,15 +36,15 @@ export const useStoreMain = defineStore('counter', () => {
     state.user = data;
   }
 
-  async function getPostUser(id: any) {
+  async function getFeedUser(id: any) {
     const { data } = await api.ftch(`/users/${id}/`,{
       method: 'get',
       query: {
         fields: ['*.*']
       }
     })
-    console.log('getPostUser', data)
-    state.postUser = data
+    console.log('getFeedUser', data)
+    state.feedUser = data
   }
 
   async function postUser(user: any) {
@@ -96,19 +94,6 @@ export const useStoreMain = defineStore('counter', () => {
     state.posts = data;
   }
 
-  async function getFollowing(id: any) {
-    const { data } = await api.ftch('/items/follows/', {
-      method: 'get',
-      query: {
-        fields: [ '*.*' ],
-        filter: {
-          user:  { _eq: id },
-        }
-      }
-    })
-    state.followings = data
-  }
-
   async function postFollowing(user_id: any) {
     await api.ftch('/items/follows/', {
       method: 'post',
@@ -119,21 +104,6 @@ export const useStoreMain = defineStore('counter', () => {
     })
     console.log(':postFollowing')
   }
-
-  async function getFollowers(id: any) {
-    const {data} = await api.ftch('/items/follows/', {
-      method: 'get',
-      query: {
-        fields: [ '*.*' ],
-        filter: {
-          follower:  { _eq: id },
-        }
-      }
-    })
-    state.followers = data
-  }
-
-
 
   async function getSelectedPost(id: any) {
     const {data} = await api.ftch(`/items/posts/${id}`, {
@@ -163,24 +133,6 @@ export const useStoreMain = defineStore('counter', () => {
     console.log("getMyPosts", data)
   }
 
-  async function getPostUserClick(id: any) {
-    const { data } = await api.ftch('/items/posts', {
-      method: 'get',
-      query: {
-        fields: ['*.*'],
-        filter: {
-          parent: { _null: true },
-          user_created: { _eq: id },
-          status: 'published'
-        },
-        limit: -1,
-        sort: ['-date_created'],
-      }
-    })
-    state.postUserClick = data
-    console.log("getMyPosts", data)
-  }
-
   async function postPost(post: any) {
     await api.ftch('/items/posts', {
       method: 'post',
@@ -202,9 +154,8 @@ export const useStoreMain = defineStore('counter', () => {
       })
     }
     getPost()
-    // getSelectedComment(id)
-    // getMyPosts(id)
   }
+
   async function getComment(id: any) {
     const { data } = await api.ftch('/items/posts', {
       method: 'get',
@@ -268,7 +219,6 @@ export const useStoreMain = defineStore('counter', () => {
       })
       console.log(':login data', data)
       api.saveTokens(data)
-      // router.push({ path: "/" });
     }
     catch (e: any) {
       console.log(':login error', e)
@@ -313,11 +263,8 @@ export const useStoreMain = defineStore('counter', () => {
     logout,
     getSelectedPost,
     getSelectedComment,
-    getPostUser,
+    getFeedUser,
     getMyPosts,
-    getPostUserClick,
-    getFollowing,
-    getFollowers,
     postFollowing,
   };
 });

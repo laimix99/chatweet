@@ -2,10 +2,30 @@
 
 <script setup>
 const storeMain = useStoreMain()
+const api = useStoreApi()
 const route = useRoute();
 const router = useRouter();
+
+const state = reactive({
+  followings: []
+})
+
+async function getFollowing() {
+  const { data } = await api.ftch('/items/follows/', {
+    method: 'get',
+    query: {
+      fields: [ '*.*' ],
+      filter: {
+        user:  { _eq: route.params.id},
+      }
+    }
+  })
+  console.log('getFollowing', data)
+  state.followings = data
+}
 onMounted(() => {
-  storeMain.getFollowing(route.params.id)
+  getFollowing()
+  // storeMain.getFollowing(route.params.id)
 })
 </script>
 
@@ -22,7 +42,7 @@ onMounted(() => {
       <span class="font-500 text-hex-dbdddd text-20px">Назад</span>
     </div>
     <Followings
-    v-for="follower in storeMain.state.followings"
+    v-for="follower in state.followings"
     :follower="follower"
     />
   </div>

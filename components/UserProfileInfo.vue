@@ -1,30 +1,62 @@
-<script setup>
+<script lang="ts" setup>
+const storeMain = useStoreMain()
+const api = useStoreApi()
 const props = defineProps({
   user: {
     type: Object,
     default: () => {}
   },
 })
-const storeMain = useStoreMain()
+
+const state= reactive({
+  followings: [],
+  followers: []
+})
+
 const isMe = computed(() => {
   return storeMain.state.user.id === props.user?.id
 })
 
-function read() {
-  storeMain.postFollowing(props.user.id)
+// function read() {
+//   storeMain.postFollowing(props.user.id)
+// }
+async function getFollowing() {
+  const { data } = await api.ftch('/items/follows/', {
+    method: 'get',
+    query: {
+      fields: [ '*.*' ],
+      filter: {
+        user:  { _eq: props.user.id},
+      }
+    }
+  })
+  console.log('getFollowing', data)
+  state.followings = data
 }
 
-  onMounted(() => {
-    storeMain.getFollowing(props.user.id)
-    storeMain.getFollowers(props.user.id)
+async function getFollowers() {
+  const {data} = await api.ftch('/items/follows/', {
+    method: 'get',
+    query: {
+      fields: [ '*.*' ],
+      filter: {
+        follower:  { _eq: props.user.id },
+      }
+    }
   })
+  console.log(':getFollowers', data)
+  state.followers = data
+}
+
+onMounted(() => {
+  getFollowing()
+  getFollowers()
+})
 </script>
 
 <template>
-  <div class="flex flex-col w-full py-5 items-center profile">
+  <div v-if="props.user.id" class="flex flex-col w-full py-5 items-center profile">
     <div class="flex flex-row w-full items-center justify-between">
-      <!-- <pre class="text-white">{{ storeMain.state.followings }}</pre> -->
-      <!-- <pre class="text-red-500">{{ user }}</pre> -->
       <div class="flex flex-col w-full items-start">
         <BaseImg 
           v-if="isMe"
@@ -40,6 +72,7 @@ function read() {
         <span class="font-400 text-hex-dbdddd opacity-40 text-13px">{{ user.last_name }}</span>
         <p class=" font-700 mt-2 text-hex-dbdddd text-15px">{{ user.description }}</p>
         <div 
+          v-if="user.location"
           class="flex flex-row mt-2 items-center"
         >
           <MySvg
@@ -62,7 +95,7 @@ function read() {
       </MyButton>
       <MyButton
         v-else
-        @click="read()"
+        @click="storeMain.postFollowing(props.user.id)"
       >
         Читать
       </MyButton>
@@ -74,16 +107,18 @@ function read() {
     <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 items-start">
       <!-- <h1 class="font-400 text-13px">Дата рождения: {{ storeMain.state.user.dateOfBirth }}</h1> -->
       <NuxtLink 
+        v-if="state.followings"
         :to="`${$route.path}/following`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ storeMain.state.followings?.length }} в читаемых
+        {{ state.followings?.length }} в читаемых
       </NuxtLink>
       <NuxtLink 
+      v-if="state.followers"
         :to="`${$route.path}/followers`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ storeMain.state.followers?.length }} читателей
+        {{ state.followers?.length }} читателей
       </NuxtLink>
     </div>
   </div>

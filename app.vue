@@ -29,6 +29,7 @@ onMounted(() => {
 
 <template>
   <div 
+    v-if="storeMain.state.user.id"
     class="flex-col-reverse flex flex-col  bg-hex-191919 w-full relative" 
     lg="flex flex-row items-start w-full"
   >

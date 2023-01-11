@@ -138,7 +138,7 @@ import { onClickOutside } from '@vueuse/core'
     </div>
     <div 
       v-if="props.socialInfo"
-      class="cursor-pointer flex flex-row w-full gap-5 justify-center items-center "
+      class="cursor-pointer flex flex-row w-full pb-1 gap-5 justify-center items-center"
     >
       <div 
         class="flex flex-row gap-1 items-center"
