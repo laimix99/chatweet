@@ -114,10 +114,14 @@ onMounted(() => {
   <pre class="text-red">{{router}}</pre> -->
 
   <div class="flex flex-col w-full p-4 gap-y-2 items-center content-start justify-start box-border">
-    <h1 class="font-bold text-hex-dbdddd text-40px">
+    <h1
+      v-if="!storeMain.state.user.id"
+      class="font-bold text-hex-dbdddd text-40px"
+    >
       Вход
     </h1>
     <div
+      v-if="!storeMain.state.user.id"
       class="flex flex-col w-full max-w-400px p-2 gap-y-2"
     >
       <input 
@@ -142,7 +146,7 @@ onMounted(() => {
       <!-- </NuxtLink> -->
     </div>
     <div>
-      <pre class="text-white">{{ storeMain.state.user }}</pre>
+      <!-- <pre class="text-white">{{ storeMain.state.user }}</pre> -->
     </div>
     <!-- <span class="font-semibold text-white">Tokens</span> -->
     <!-- <small class="text-white access">access: {{ api.accessToken || '-' }}</small> -->
@@ -165,9 +169,9 @@ onMounted(() => {
       <!-- <button @click="api.refreshTokens()">
         Refresh
       </button> -->
-      <button @click="logout()">
-        Logout
-      </button>
+      <MyButton v-if="storeMain.state.user.id" @click="logout()">
+        Выйти
+      </MyButton>
     </div>
   </div>
 </template>

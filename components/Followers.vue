@@ -1,15 +1,74 @@
 <script setup>
 const storeMain = useStoreMain()
+const api = useStoreApi()
+
 const props = defineProps({
   follower: {
     type: Object,
     default: () => {}
   }
 })
+
+const state = reactive({
+  isMe:  computed(() => {
+    return storeMain.state.user.id === props.follower.user.id
+  }),
+  subscriptionCheck: [],
+  chechId: {},
+  checkSubscription: computed(() => {
+    return state.subscriptionCheck.length > 0
+  }),
+})
+
+async function getSubscriptionCheck () {
+  const { data } = await api.ftch('/items/follows/', {
+    method: 'get',
+    query: {
+      fields: ['*,*'],
+      filter: {
+        user: { _eq: storeMain.state.user.id },
+        follower:  { _eq: props.follower.user.id },
+      }
+    }
+  })
+  state.subscriptionCheck = data
+  for (var obj of data) {
+    state.chechId = obj
+  }
+  console.log(':getSubscriptionCheck', state.subscriptionCheck)
+}
+
+async function postFollowing() {
+  await api.ftch('/items/follows/', {
+    method: 'post',
+    body: {
+      user: storeMain.state.user.id,
+      follower: props.follower.user.id
+    }
+  })
+  console.log(':postFollowing')
+  getSubscriptionCheck()
+}
+
+async function deleteFollowing() {
+  await api.ftch(`/items/follows/${state.chechId.id}`, {
+    method: 'delete'
+  })
+  console.log(':deleteFollowing')
+  getSubscriptionCheck()
+
+}
+
+onMounted(() => {
+  getSubscriptionCheck()
+})
 </script>
+
 <template>
-  <!-- <pre>{{ follower }}</pre> -->
-  <div class="flex flex-col w-full pt-2 gap-5 items-start">
+  <div  class="flex flex-col w-full pt-2 gap-5 items-start">
+    <!-- <pre class="text-red-500"> user:{{ state.chechId }}</pre> -->
+    <!-- <pre class="text-white">follower: {{ follower.user }}</pre> -->
+    <!-- <pre class="text-green-500">{{ state.subscriptionCheck }}</pre> -->
     <div  class="flex flex-row w-full items-center justify-between">
       <NuxtLink
         :to="`/user/${follower.user.id}`"
@@ -24,11 +83,26 @@ const props = defineProps({
           <span class="font-400 text-hex-dbdddd opacity-40 text-15px">{{ follower.user.last_name }}</span>
         </div>
       </NuxtLink>
-      <MyButton
-        view="white"
+      <h1 
+        v-if="state.isMe"
+        class="font-400 text-16px text-gray-500" 
       >
-        Читать
-      </MyButton>
+        Вы
+      </h1>
+      <div v-else >
+        <MyButton 
+          v-if="state.checkSubscription"
+          @click="deleteFollowing()"
+        >
+          Не читать
+        </MyButton>
+        <MyButton 
+          v-else 
+          @click="postFollowing()"
+        >
+          Читать 
+        </MyButton>
+      </div>
     </div>
   </div>
 </template>

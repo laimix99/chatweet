@@ -8,18 +8,19 @@ const props = defineProps({
   },
 })
 
-const state= reactive({
+const state = reactive({
+  isMe:  computed(() => {
+    return storeMain.state.user.id === props.user?.id
+  }),
   followings: [],
-  followers: []
-})
+  followers: [],
+  subscriptionCheck: [],
+  chechId: {},
+  checkSubscription: computed(() => {
+    return state.subscriptionCheck.length > 0
+  }),
+}) as any
 
-const isMe = computed(() => {
-  return storeMain.state.user.id === props.user?.id
-})
-
-// function read() {
-//   storeMain.postFollowing(props.user.id)
-// }
 async function getFollowing() {
   const { data } = await api.ftch('/items/follows/', {
     method: 'get',
@@ -48,18 +49,63 @@ async function getFollowers() {
   state.followers = data
 }
 
+async function getSubscriptionCheck () {
+  const { data } = await api.ftch('/items/follows/', {
+    method: 'get',
+    query: {
+      fields: ['*,*'],
+      filter: {
+        user: { _eq: storeMain.state.user.id },
+        follower:  { _eq: props.user.id },
+      }
+    }
+  })
+  state.subscriptionCheck = data
+  for (var obj of data) {
+    state.chechId = obj
+  }
+//   console.log(':getSubscriptionCheck', state.subscriptionCheck)
+}
+
+
+async function postFollowing() {
+  await api.ftch('/items/follows/', {
+    method: 'post',
+    body: {
+      user: storeMain.state.user.id,
+      follower: props.user.id
+    }
+  })
+  console.log(':postFollowing')
+  getSubscriptionCheck()
+  getFollowers()
+  getFollowing()
+}
+
+async function deleteFollowing() {
+  await api.ftch(`/items/follows/${state.chechId.id}`, {
+    method: 'delete'
+  })
+  console.log(':deleteFollowing')
+  getSubscriptionCheck()
+  getFollowers()
+  getFollowing()
+}
+
 onMounted(() => {
   getFollowing()
   getFollowers()
+  getSubscriptionCheck()
 })
 </script>
 
 <template>
   <div v-if="props.user.id" class="flex flex-col w-full py-5 items-center profile">
+    <!-- <pre class="text-white">{{ state.subscriptionCheck }}</pre> -->
     <div class="flex flex-row w-full items-center justify-between">
       <div class="flex flex-col w-full items-start">
         <BaseImg 
-          v-if="isMe"
+          v-if="state.isMe"
           view="profile"
           :src="`https://mfvcni0p.directus.app/assets/${user.avatar}.png`"
         />
@@ -88,17 +134,25 @@ onMounted(() => {
         </a> -->
       </div>
       <MyButton 
-        v-if="isMe"
+        v-if="state.isMe"
         @click="storeMain.state.showEdit = true"
       >
         Изменить профиль 
       </MyButton>
-      <MyButton
-        v-else
-        @click="storeMain.postFollowing(props.user.id)"
-      >
-        Читать
-      </MyButton>
+      <div v-else>
+        <MyButton
+          v-if="state.checkSubscription"
+          @click="deleteFollowing"
+        >
+          Не читать 
+        </MyButton>
+        <MyButton
+          v-else
+          @click="postFollowing()"
+        >
+          Читать
+        </MyButton>
+      </div>
       <ModalEdit
         v-if="storeMain.state.showEdit" 
         @close="storeMain.state.showEdit = false"
@@ -111,14 +165,14 @@ onMounted(() => {
         :to="`${$route.path}/following`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ state.followings?.length }} в читаемых
+        {{ state.followings?.length }} читают
       </NuxtLink>
       <NuxtLink 
       v-if="state.followers"
         :to="`${$route.path}/followers`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ state.followers?.length }} читателей
+        {{ state.followers?.length }} читает
       </NuxtLink>
     </div>
   </div>

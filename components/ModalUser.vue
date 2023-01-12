@@ -1,10 +1,8 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core'
 const storeMain = useStoreMain()
-const user = storeMain.state.user
-onMounted(() => {
-  storeMain.getUser()
-})
+const router = useRouter()
+// const user = storeMain.state.user
 const target = ref()
 const showModal = ref(false)
 onClickOutside(target, (event) => showModal.value = false)
@@ -18,6 +16,14 @@ function isEmptyObj(object) {
   return false;
 }
 
+function output () {
+  router.push({ path: '/auth' })
+  showModal.value = false
+}
+
+onMounted(() => {
+  storeMain.getUser()
+})
 </script>
 
 <template>
@@ -41,7 +47,7 @@ function isEmptyObj(object) {
       v-if="showModal"
       class="bg-hex-191919 rounded-8px w-full max-w-200px py-2 px-1 exit box-border"
     >
-      <h1 class="cursor-pointer text-hex-dbdddd py-1 text-15px hover:bg-hex-a79f9f1a ">Выйти из аккаунта</h1>
+      <h1 @click="output()" class="cursor-pointer text-hex-dbdddd py-1 text-15px hover:bg-hex-a79f9f1a ">Выйти из аккаунта</h1>
     </div>
   </div>
 </template>

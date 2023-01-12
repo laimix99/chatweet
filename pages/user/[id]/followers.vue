@@ -30,7 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full px-2 items-start box-border">
+  <div v-if="state.followers && route.params.id" class="flex flex-col w-full px-2 items-start box-border">
     <!-- <pre>{{ route.params.id }}</pre> -->
     <div
       class="cursor-pointer flex flex-row gap-3 items-center"

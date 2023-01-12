@@ -33,6 +33,7 @@ onMounted(() => {
     lg="flex flex-row items-start w-full"
   >
     <div 
+    
       class="bg-none flex flex-col pl-10 top-15 w-1/5 items-center sticky items-start"
       :class="[ showMobileMenu ? '' : 'mobile-menu' ]"
     >
@@ -80,7 +81,9 @@ onMounted(() => {
       class="flex flex-col min-h-screen w-full content"
       lg=" w-3/5"
     >
-      <NuxtPage />
+      <NuxtPage v-if="storeMain.state.user.id"/>
+      <NuxtPage v-else page-key="auth" />
+      <Auth/>
     </div>
     <div 
     class="hidden"
