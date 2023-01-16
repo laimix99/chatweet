@@ -1,125 +1,131 @@
 <script setup lang="ts">
-const { files, open, reset } = useFileDialog()
 const storeMain = useStoreMain()
 const api = useStoreApi()
 const emit = defineEmits(['close'])
 
 const state = reactive({
-  // avatarUrl: '',
   name: storeMain.state.user.first_name,
   description: storeMain.state.user.description,
   location: storeMain.state.user.location,
-  webSite: '',
-  dateOfBirth: '',
-})
+  file: storeMain.state.user.avatar ,
+  // webSite: '',
+  // dateOfBirth: '',
+}) as any
 
-const changeProfile = (id: any) => {
-  // // if (state.name === '') {
-  // //   return console.log('пусто сука')
-  // // }
-  // console.log(state);
-  // storeMain.editUsers(state)
-  // storeMain.state.showEdit = false
-  const payloud = {
-    name: state.name,
-    description: state.description,
-    location: state.location
+function onFileUpload (event: any) {
+  state.file = event.target.files[0]
+  state.fileUrl = URL.createObjectURL(state.file)
+}
+
+async function editUser() {
+  if (state.fileUrl){
+    const formData = new FormData()
+    formData.append('file', state.file)
+    const { data: fileUploaded } = await api.ftch('/files', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    console.log(':postImg fileUploaded', fileUploaded)
+    const { data: userUpdated } = await api.ftch(`/users/${storeMain.state.user.id}`, {
+      method: 'PATCH',
+      body: {
+        avatar: fileUploaded.id,
+        first_name: state.name,
+        location: state.location,
+        description: state.description
+      }
+    })
+    console.log('userUpdated', userUpdated)
+    state.fileUrl = ''
+  } else {
+    const { data: userUpdated } = await api.ftch(`/users/${storeMain.state.user.id}`, {
+      method: 'PATCH',
+      body: {
+        first_name: state.name,
+        location: state.location,
+        description: state.description
+      }
+    })
+    console.log('userUpdated', userUpdated)
   }
-  storeMain.editUsers(id, payloud)
+  storeMain.getUser()
   storeMain.state.showEdit = false
 }
-
-const showAvatar = ref(true)
-const openDialog = () => {
-  open()
-}
-watch(() => files.value, (to) => {
-  // console.log(to)
-  if (to) {
-    const filesLength = to.length
-    const lastFile = to[filesLength - 1]
-    const url = URL.createObjectURL(lastFile)
-    // state.avatarUrl = url
-    showAvatar.value = !showAvatar.value
-
-    // console.log(state.files)
-  }
-})
 
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen w-full top-0 left-0 w-100vw z-999 modal items-center justify-center fixed ">
+  <div class="flex flex-col min-h-screen w-full top-0 left-0 w-100vw z-999 modal items-center justify-center fixed">
     <div 
-      class="bg-black flex flex-col h-screen w-full max-w-600px p-5 box-border items-start"
-      lg="rounded-16px h-full"
+    class="bg-black flex flex-col h-screen w-full max-w-600px p-5 box-border items-start"
+    lg="rounded-16px h-full"
     >
       <div class="flex flex-row w-full items-center justify-between">
         <div class="flex flex-row gap-3 items-center">
           <MySvg icon="close" @click="emit('close')"/>
           <h1 class="text-hex-dbdddd text-15px" lg="tet-20px">Изменить профиль</h1>
         </div>
-        <MyButton @click="changeProfile(storeMain.state.user.id)">Сохранить</MyButton>
+        <MyButton @click="editUser">Сохранить</MyButton>
       </div>
       <div class="flex flex-col mt-10px w-full gap-8 items-start relative">
-        <div class="flex flex-row">
-          <div class="flex flex-col h-full rounded-1/2 w-full max-w-40px max-h-40px p-1 top-7 left-7 items-center justify-center circle absolute">
-            <MySvg
-              title="Загрузить"
-              @click="openDialog"
-              icon="change"
-            />
-          </div>
+        <div class=" flex flex-row gap-4 items-center">
           <BaseImg 
-
+          v-if="!state.fileUrl"
             view="profile"
-
+            :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
           />
-          <!-- <BaseImg
-            v-if="state.avatarUrl"
+          <BaseImg
+            v-else
+            :src="state.fileUrl"
             view="profile"
-            :src="state.avatarUrl"
-          /> -->
+          />
+          <input 
+            @change="onFileUpload" 
+            class="w-100px custom-file-input"
+            type="file"
+          >
         </div>
         <input 
           v-model="state.name"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
+          class= "input bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
           placeholder="Name" 
           type="text"
         >
         <textarea 
           v-model="state.description"
-          class="bg-black rounded-5px h-80px text-hex-dbdddd text-left w-full pl-3 text-20px box-border"
+          class="bg-black rounded-5px h-80px text-hex-dbdddd text-left w-full pl-3 text-20px input box-border"
           placeholder="О себе"
         />
         <input 
           v-model="state.location"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
+          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px input box-border" 
           placeholder="Местоположение" 
           type="text"
         >
-        <input 
+        <!-- <input 
           v-model="state.webSite"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
+          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px input box-border" 
           placeholder="Веб сайт" 
           type="text"
         >
         <input 
           v-model="state.dateOfBirth"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"
+          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px input box-border"
           type="date"
-          
-        >
+        > -->
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-  input {
+  .input {
     outline: 1px solid gray;
   }
-  input:focus {
+  .input:focus {
     outline: 3px solid #07485B;
   }
   textarea {
@@ -129,17 +135,45 @@ watch(() => files.value, (to) => {
   textarea:focus {
     outline: 3px solid #07485B;
   }
-  input[type="date"] {
+  /* input[type="date"] {
     
-  }
-  ::-webkit-calendar-picker-indicator {
+  } */
+  /* ::-webkit-calendar-picker-indicator {
     background-color: #07485B;
     padding: 5px;
     border-radius: 5px;
     
-    /* opacity: 0; */
-  }
-  .circle {
+    opacity: 0;
+  } */
+  /* .circle {
     background: rgba(0, 0, 0, 0.2);
-  }
+  } */
+
+  .custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'загрузить';
+  display: inline-block;
+  border: 2px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  /* -webkit-user-select: none; */
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  color: #dbdddd;
+}
+.custom-file-input:hover::before {
+  border-color: #07485B;
+  /* border: 3px solid #07485B; */
+}
+.custom-file-input:active::before {
+  /* background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); */
+}
+/* .custom-file-input{
+  color: #dbdddd;
+} */
 </style>

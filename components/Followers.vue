@@ -85,7 +85,7 @@ onMounted(() => {
       </NuxtLink>
       <h1 
         v-if="state.isMe"
-        class="font-400 text-16px text-gray-500" 
+        class="font-400 text-16pxtext-hex-dbdddd" 
       >
         Вы
       </h1>
