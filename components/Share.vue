@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useFileDialog } from '@vueuse/core'
-import path from 'path';
-
-const { files, open, reset } = useFileDialog()
+const api = useStoreApi()
+const storeMain = useStoreMain();
 
 const props = defineProps({
   color: {
@@ -10,42 +8,41 @@ const props = defineProps({
   }
 })
 
-const api = useStoreApi()
-const storeMain = useStoreMain();
 const state = reactive({
   text: "",
-  files: [] as any,
-  // user_created: 'df2dd819-90fa-4b5a-bcba-aa2616777c3c',
-});
+  file: null
+}) as any
 
+function onFileUpload (event: any) {
+  state.file = event.target.files[0]
+  state.fileUrl = URL.createObjectURL(state.file)
+}
 
-function postAdd() {
-  if (!state.text || !state.files) {
-    return
-  }
+async function postAdd() {
+  if (state.text.length === 0) return
   const postPayload = {
     description: state.text,
-    // files: state.files
-    // user_created: state.user_created
   }
+
+  if(state.file) {
+    const formData = new FormData()
+    formData.append('file', state.file)
+    const { data: fileUploaded } = await api.ftch('/files', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    console.log(':postImg fileUploaded', fileUploaded)
+    postPayload.images = fileUploaded.id
+  }
+  
   storeMain.postPost(postPayload)
   state.text = "";
-  // state.files = []
+  state.fileUrl = ''
   storeMain.state.showModal = false
 }
-const openDialog = () => {
-  open()
-}
-watch(() => files.value, (to) => {
-  console.log(to)
-  if (to) {
-    const filesLength = to.length
-    const lastFile = to[filesLength - 1]
-    const url = URL.createObjectURL(lastFile)
-    state.files.push({ url: url, file: lastFile })
-    console.log(state.files)
-  }
-})
 
 </script>
 
@@ -67,16 +64,19 @@ watch(() => files.value, (to) => {
     </div>
     <div class="flex flex-row mt-20px w-full items-start justify-between">
       <div class="flex flex-col items-start">
-        <MySvg
-          title="Загрузить"
-          @click="openDialog"
-          icon="add"
-        />
+        <label class="cursor-pointer">
+          <input
+            @change="onFileUpload" 
+            type="file"
+            class="hidden"
+          >
+          <MySvg
+            icon="add"
+          />
+        </label>
         <div class="flex flex-row mt-20px gap-2">
           <BaseImg
-            v-for="(img, imgIndex) in state.files"
-            :key="imgIndex"
-            :src="img.url"
+            :src="state.fileUrl"
             view="post"
           />
         </div>
@@ -87,3 +87,7 @@ watch(() => files.value, (to) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+
+</style>

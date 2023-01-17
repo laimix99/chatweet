@@ -67,12 +67,11 @@ export const useStoreMain = defineStore('counter', () => {
       method: 'PATCH',
       body: {
         first_name: prof.name,
-        last_name: prof.username,
         location: prof.location,
-        description: prof.description
+        description: prof.description,
+        avatar: prof.avatar
       }
     }
-    await api.ftch(path, options)
     getUser()
   }
 
@@ -138,6 +137,7 @@ export const useStoreMain = defineStore('counter', () => {
       method: 'post',
       body: {
         description: post.description,
+        images: post.images,
         status: 'published',
       },
     });

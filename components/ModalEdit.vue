@@ -71,9 +71,9 @@ async function editUser() {
         <MyButton @click="editUser">Сохранить</MyButton>
       </div>
       <div class="flex flex-col mt-10px w-full gap-8 items-start relative">
-        <div class=" flex flex-row gap-4 items-center">
+        <div class=" flex flex-row gap-4 items-center relative">
           <BaseImg 
-          v-if="!state.fileUrl"
+            v-if="!state.fileUrl"
             view="profile"
             :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
           />
@@ -82,15 +82,20 @@ async function editUser() {
             :src="state.fileUrl"
             view="profile"
           />
-          <input 
-            @change="onFileUpload" 
-            class="w-100px custom-file-input"
-            type="file"
-          >
+          <label class="cursor-pointer bg-hex-00000080 rounded-1/2 p-2 left-7 bb absolute">
+            <input 
+              @change="onFileUpload" 
+              class="hidden"
+              type="file"
+            >
+            <MySvg
+              icon="change"
+            />
+          </label>
         </div>
         <input 
           v-model="state.name"
-          class= "input bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
+          class= "bg-black input rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border" 
           placeholder="Name" 
           type="text"
         >
@@ -149,31 +154,6 @@ async function editUser() {
     background: rgba(0, 0, 0, 0.2);
   } */
 
-  .custom-file-input::-webkit-file-upload-button {
-  visibility: hidden;
-}
-.custom-file-input::before {
-  content: 'загрузить';
-  display: inline-block;
-  border: 2px solid #999;
-  border-radius: 3px;
-  padding: 5px 8px;
-  outline: none;
-  white-space: nowrap;
-  /* -webkit-user-select: none; */
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 15px;
-  color: #dbdddd;
-}
-.custom-file-input:hover::before {
-  border-color: #07485B;
-  /* border: 3px solid #07485B; */
-}
-.custom-file-input:active::before {
-  /* background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); */
-}
-/* .custom-file-input{
-  color: #dbdddd;
-} */
+
+
 </style>
