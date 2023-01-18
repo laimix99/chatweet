@@ -66,7 +66,7 @@ onMounted(() => {
 
 <template>
   <div  class="flex flex-col w-full pt-2 gap-5 items-start">
-    <!-- <pre class="text-red-500"> user:{{ state.chechId }}</pre> -->
+    <!-- <pre class="text-red-500"> user:{{ follower.user.first_name }}</pre> -->
     <!-- <pre class="text-white">follower: {{ follower.user }}</pre> -->
     <!-- <pre class="text-green-500">{{ state.subscriptionCheck }}</pre> -->
     <div  class="flex flex-row w-full items-center justify-between">
@@ -75,7 +75,13 @@ onMounted(() => {
         class="flex flex-row gap-2 items-center no-underline"
       >
         <BaseImg
+          v-if="follower.user.avatar"
           :src="`https://mfvcni0p.directus.app/assets/${follower.user.avatar}.png`"
+          view="avatar"
+        />
+        <NoPhoto
+          v-else
+          :name="follower.user.first_name"
           view="avatar"
         />
         <div class="flex flex-col items-start">

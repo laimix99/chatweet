@@ -47,11 +47,17 @@ async function postAdd() {
 </script>
 
 <template>
-  <div class="flex flex-col w-full py-3 px-2 share items-center box-border">
-    <div class="flex flex-row w-full gap-2 items-center">
+  <div class="flex flex-col w-full py-3 px-2 share items-start box-border">
+    <div class="flex flex-row w-full gap-3 items-center">
       <BaseImg  
+        v-if="storeMain.state.user.avatar"
         view="avatar"
         :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
+      />
+      <NoPhoto
+        v-else
+        :name="storeMain.state.user.first_name"
+        view="avatar"
       />
       <input
         type="text"
@@ -60,6 +66,20 @@ async function postAdd() {
         class="h-auto bg-hex-191919 h-100px text-hex-dbdddd w-full text-16px"
         :style="{background: props.color}"
         @keyup.enter="postAdd()"
+      />
+    </div>
+    <div 
+      v-if="state.fileUrl"
+      class="flex flex-row mt-20px gap-2 relative"
+    >
+      <BaseImg
+        :src="state.fileUrl"
+        view="post"
+      />
+      <MySvg
+        class="bg-hex-00000080 rounded-1/2 p-1 top-2 right-2 absolute"
+        @click="state.fileUrl = ''"
+        icon="close"
       />
     </div>
     <div class="flex flex-row mt-20px w-full items-start justify-between">
@@ -74,12 +94,6 @@ async function postAdd() {
             icon="add"
           />
         </label>
-        <div class="flex flex-row mt-20px gap-2">
-          <BaseImg
-            :src="state.fileUrl"
-            view="post"
-          />
-        </div>
       </div>
       <MyButton @click="postAdd">
         Поделиться

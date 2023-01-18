@@ -78,7 +78,13 @@ onMounted(() => {
         class="flex flex-row gap-2 items-center no-underline"
       >
         <BaseImg
+        v-if="follower.follower.avatar"
           :src="`https://mfvcni0p.directus.app/assets/${follower.follower.avatar}.png`"
+          view="avatar"
+        />
+        <NoPhoto
+          v-else
+          :name="follower.follower.first_name"
           view="avatar"
         />
         <div class="flex flex-col items-start">

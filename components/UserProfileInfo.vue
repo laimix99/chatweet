@@ -101,19 +101,35 @@ onMounted(() => {
 
 <template>
   <div v-if="props.user.id" class="flex flex-col w-full py-5 items-center profile">
-    <!-- <pre class="text-white">{{ state.subscriptionCheck }}</pre> -->
+    <!-- <pre class="text-white">{{ user }}</pre> -->
     <div class="flex flex-row w-full items-center justify-between">
       <div class="flex flex-col w-full items-start">
-        <BaseImg 
-          v-if="state.isMe"
-          view="profile"
-          :src="`https://mfvcni0p.directus.app/assets/${user.avatar}.png`"
-        />
-        <BaseImg 
-          v-else
-          view="profile"
-          :src="`https://mfvcni0p.directus.app/assets/${user.avatar?.id}.png`"
-        />
+        <div v-if="state.isMe">
+          <BaseImg 
+            v-if="user.avatar"
+            view="profile"
+            :src="`https://mfvcni0p.directus.app/assets/${user.avatar}.png`"
+          />
+          <NoPhoto
+            v-else
+            view="profile"
+            :name="user.first_name"
+          />
+        </div>
+        <div v-else>
+          <BaseImg 
+            v-if="user.avatar?.id"
+            view="profile"
+            :src="`https://mfvcni0p.directus.app/assets/${user.avatar?.id}.png`"
+          />
+          <NoPhoto
+            v-else
+            view="profile"
+            :name="user.first_name"
+          />
+        </div>
+
+
         <h1 class=" font-700 mt-2 text-hex-dbdddd text-25px">{{ user.first_name }}</h1>
         <span class="font-400 text-hex-dbdddd opacity-40 text-13px">{{ user.last_name }}</span>
         <p class=" font-700 mt-2 text-hex-dbdddd text-15px">{{ user.description }}</p>

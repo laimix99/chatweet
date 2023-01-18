@@ -30,8 +30,14 @@ onMounted(() => {
   <div ref="target" v-if="isEmptyObj(storeMain.state.user)" class="flex flex-col w-full gap-2">
     <div class="flex flex-row rounded-16px w-full max-w-200px py-2 px-4 gap-2 user relative items-center box-border">
       <BaseImg
+        v-if="storeMain.state.user.avatar"
         view="avatar"
         :src="`https://mfvcni0p.directus.app/assets/${storeMain.state.user.avatar}.png`"
+      />
+      <NoPhoto
+        v-else
+        :name="storeMain.state.user.first_name"
+        view="avatar"
       />
       <div class="flex flex-col items-start">
         <h1 class="text-hex-dbdddd text-18px">{{storeMain.state.user.first_name}}</h1>

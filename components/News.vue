@@ -9,6 +9,9 @@ import { onClickOutside } from '@vueuse/core'
       type: Boolean,
       default: true,
     },
+    parent_id: {
+      type: String,
+    }
 
   })
   
@@ -88,7 +91,6 @@ import { onClickOutside } from '@vueuse/core'
   }
 
   onMounted(() => {
-    // storeMain.getComment(props.post.id)
     getLikes()
     getComment()
   })
@@ -96,16 +98,20 @@ import { onClickOutside } from '@vueuse/core'
 
 <template>
   <div v-if="props.post" class="flex flex-col w-full px-2 box-border">
-    <!-- <pre class="text-red-500">{{ post }}</pre> -->
-    <!-- <pre class="text-white">{{ state.comment }}</pre> -->
     <div class="flex flex-row w-full py-20px gap-3 relative items-start">
+      <!-- <pre class="text-red-600">{{ post.id }}</pre> -->
       <BaseImg
+        v-if="post.user_created.avatar"
         view="avatar"
         :src="`https://mfvcni0p.directus.app/assets/${post.user_created.avatar}.png`"
       />
+      <NoPhoto
+        v-else
+        view="avatar"
+        :name="post.user_created.first_name "
+      />
       <div 
         class=" flex flex-col  items-start"
- 
       >
         <NuxtLink 
           :to="`/user/${post.user_created?.id}`"
@@ -133,7 +139,7 @@ import { onClickOutside } from '@vueuse/core'
         v-if="state.isMine"
         class="cursor-pointer right-0 absolute"
         icon="close"
-        @click="storeMain.deletePost(post.id)"
+        @click="storeMain.deletePost(post.id, parent_id)"
       />    
     </div>
     <div 
@@ -168,7 +174,6 @@ import { onClickOutside } from '@vueuse/core'
           icon="like"
         />
       </div>
-      <!-- <pre class="text-green-500">{{ state.likes }}</pre> -->
     </div>
     <ModalComment
       v-if="state.showComment"

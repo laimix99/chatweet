@@ -37,7 +37,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <pre >{{ route.params.id}}</pre> -->
+  <!-- <pre>{{ route.params.id }}</pre> -->
   <div 
     v-if="state.post && state.post.user_created && storeMain.state.comments" 
     class="flex flex-col w-full px-3 box-border"
@@ -57,9 +57,10 @@ onMounted(() => {
     />
     <div v-for="comment in storeMain.state.comments">
       <News
-      :post="comment"
-      class="comment"
-    />
+        :post="comment"
+        :parent_id="route.params.id"
+        class="comment"
+      />
     </div>
   </div>
 </template>

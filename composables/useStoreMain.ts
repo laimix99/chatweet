@@ -6,16 +6,13 @@ export const useStoreMain = defineStore('counter', () => {
 
   const state = reactive({
     user: {},
-    post: {},
-    followings: [],
-    followers: [],
+    // post: {},
     posts: [],
     myPost: [],
     comments: [],
-    myComments: [],
     showModal: false,
     showEdit: false,
-    showComment: false,
+    // showComment: false,
     showRegistration: true,
     menu: [
       {title: 'Лента', link: '/', icon: 'ribbon'},
@@ -104,16 +101,6 @@ export const useStoreMain = defineStore('counter', () => {
     console.log(':postFollowing')
   }
 
-  async function getSelectedPost(id: any) {
-    const {data} = await api.ftch(`/items/posts/${id}`, {
-      method: 'get',
-      query: {
-        fields: ['*.*'],
-      }
-    })
-    state.post = data
-  }
-
   async function getMyPosts(id: any) {
     const { data } = await api.ftch('/items/posts', {
       method: 'get',
@@ -144,7 +131,7 @@ export const useStoreMain = defineStore('counter', () => {
     getPost();
   }
 
-  async function deletePost(id: string) {
+  async function deletePost(id: string, parent_id: string) {
     if (confirm('Удалить пост ?')) {
       await api.ftch(`items/posts/${id}`, {
         method: 'PATCH',
@@ -154,6 +141,7 @@ export const useStoreMain = defineStore('counter', () => {
       })
     }
     getPost()
+    getSelectedComment(parent_id)
   }
 
   async function getComment(id: any) {
@@ -184,7 +172,6 @@ export const useStoreMain = defineStore('counter', () => {
           parent: {_eq: id},
           status: 'published'
         },
-        limit: -1,
       }
     })
     console.log('getComment', data)
@@ -261,7 +248,7 @@ export const useStoreMain = defineStore('counter', () => {
     postUser,
     login,
     logout,
-    getSelectedPost,
+    // getSelectedPost,
     getSelectedComment,
     getFeedUser,
     getMyPosts,
