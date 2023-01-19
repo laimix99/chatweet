@@ -60,8 +60,6 @@ async function deleteFollowing() {
 
 onMounted(() => {
   getSubscriptionCheck()
-  console.log('Y', state.isMe)
-
 })
 
 

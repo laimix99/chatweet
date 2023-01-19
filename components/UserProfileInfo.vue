@@ -174,21 +174,21 @@ onMounted(() => {
         @close="storeMain.state.showEdit = false"
       />
     </div>
-    <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 items-start">
+    <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 ju items-start">
       <!-- <h1 class="font-400 text-13px">Дата рождения: {{ storeMain.state.user.dateOfBirth }}</h1> -->
       <NuxtLink 
         v-if="state.followings"
         :to="`${$route.path}/following`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ state.followings?.length }} читают
+        {{ state.followings?.length }} читает
       </NuxtLink>
       <NuxtLink 
       v-if="state.followers"
         :to="`${$route.path}/followers`" 
         class="cursor-pointer font-400 text-hex-dbdddd text-13px no-underline hover:underline"
       >
-        {{ state.followers?.length }} читает
+        {{ state.followers?.length }} читают 
       </NuxtLink>
     </div>
   </div>

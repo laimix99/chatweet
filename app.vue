@@ -33,12 +33,12 @@ onMounted(() => {
     lg="flex flex-row items-start w-full"
   >
     <div 
-    
-      class="bg-none flex flex-col pl-10 top-15 w-1/5 items-center sticky items-start"
+      class="flex flex-row justify-center"
+      lg="flex-col pl-10 top-15 w-1/5 items-center sticky items-start"
       :class="[ showMobileMenu ? '' : 'mobile-menu' ]"
     >
       <div 
-        class="flex flex-row w-full gap-2 items-center justify-center"
+        class="flex flex-row w-full gap-2 items-center justify-center "
         lg="flex flex-col gap-2 items-start"
       >
         <NuxtLink 
@@ -74,9 +74,9 @@ onMounted(() => {
             icon="add-post"
           />
         </MyButton>
-        <ModalUser/>
       </div>
     </div>
+    <ModalUser/>
     <div 
       class="flex flex-col min-h-screen w-full content"
       lg=" w-3/5"

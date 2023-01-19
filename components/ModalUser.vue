@@ -27,8 +27,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="target" v-if="isEmptyObj(storeMain.state.user)" class="flex flex-col w-full gap-2">
-    <div class="flex flex-row rounded-16px w-full max-w-200px py-2 px-4 gap-2 user relative items-center box-border">
+  <div 
+    v-if="isEmptyObj(storeMain.state.user)" 
+    ref="target" 
+    class="flex flex-row right-5 bottom-20 z-30 gap-2 fixed" 
+    lg="w-full bottom-10 left-5 flex flex-col"
+  >
+    <div 
+      v-if="showModal"
+      class="bg-hex-191919 rounded-8px w-full max-w-500px py-2 px-1 exit box-border"
+      lg="max-w-200px"
+    >
+      <h1 
+        @click="output()" 
+        class="cursor-pointer text-hex-dbdddd py-1 text-14px hover:bg-hex-a79f9f1a"
+        lg="text-15px"
+      >
+        Выйти из аккаунта
+      </h1>
+    </div>
+    <div 
+      class="flex flex-row rounded-16px w-full max-w-100px user relative items-center box-border"
+      lg="max-w-200px gap-2 py-2 px-4 "  
+    >
       <BaseImg
         v-if="storeMain.state.user.avatar"
         view="avatar"
@@ -40,20 +61,14 @@ onMounted(() => {
         view="avatar"
       />
       <div class="flex flex-col items-start">
-        <h1 class="text-hex-dbdddd text-18px">{{storeMain.state.user.first_name}}</h1>
-        <span class="text-hex-dbdddd text-15px">{{ storeMain.state.user.last_name }}</span>
+        <h1 class="hidden" lg="text-hex-dbdddd text-18px block">{{storeMain.state.user.first_name}}</h1>
+        <span class="hidden" lg="text-hex-dbdddd text-18px block">{{ storeMain.state.user.last_name }}</span>
       </div>
       <MySvg
         @click="showModal = !showModal"
         icon="more-horiz"
         class="cursor-pointer right-1 absolute"
       />
-    </div>
-    <div 
-      v-if="showModal"
-      class="bg-hex-191919 rounded-8px w-full max-w-200px py-2 px-1 exit box-border"
-    >
-      <h1 @click="output()" class="cursor-pointer text-hex-dbdddd py-1 text-15px hover:bg-hex-a79f9f1a ">Выйти из аккаунта</h1>
     </div>
   </div>
 </template>

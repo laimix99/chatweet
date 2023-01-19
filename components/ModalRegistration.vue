@@ -15,11 +15,20 @@ function isEmptyObj(object) {
 <template>
   <div 
     v-if="isEmptyObj(storeMain.state.user)" 
-    class="flex flex-col bg-hex-07485B min-h-50px w-full bottom-0 justify-center items-center absolute"
+    class="flex flex-col bg-hex-07485B min-h-30px w-full py-1 bottom-15 justify-center items-center fixed"
+    lg="min-h-50px w-full bottom-0"
   >
     <div class="flex flex-row w-full max-w-800px items-center justify-between">
-      <h1 class="text-hex-dbdddd text-30px">Присоединяйся</h1>
-      <div class="flex flex-row gap-3 items-center">
+      <h1 
+        class="hidden"
+        lg="block text-30px text-hex-dbdddd"
+      >
+        Присоединяйся 
+      </h1>
+      <div 
+        class="flex flex-row w-full px-3 justify-between items-center"
+        lg="flex flex-row gap-3 w-300px items-center"
+      >
         <NuxtLink to="/auth">
           <MyButton class="login">вход</MyButton>
         </NuxtLink>

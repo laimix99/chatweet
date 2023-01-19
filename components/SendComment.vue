@@ -85,7 +85,7 @@ async function postComment() {
         type="text"
         v-model="state.descriptionComment"
         placeholder="Что нового ?"
-        class="bg-black h-auto h-100px text-hex-dbdddd w-full"
+        class="bg-black h-auto h-100px text-hex-dbdddd w-full text-16px"
         @keyup.enter="postComment()"
       />
     </div>

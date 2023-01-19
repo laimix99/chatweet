@@ -19,7 +19,7 @@ import { onClickOutside } from '@vueuse/core'
   const api = useStoreApi()
 
   // const children = ref([])
-  const showComment = ref(false) 
+
 
   const state = reactive({
     isMine: computed(() => {
