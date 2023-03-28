@@ -28,7 +28,6 @@ onMounted(() => {
 
 <template>
   <div v-if="storeMain.state.user.id" class="flex flex-col w-full px-2 items-start box-border">
-    <!-- <pre>{{ storeMain.state.user.id }}</pre> -->
     <div
       class="cursor-pointer flex flex-row gap-3 items-center"
       @click="router.back()"

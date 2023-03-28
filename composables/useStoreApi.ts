@@ -11,14 +11,12 @@ export const useStoreApi = defineStore('api', () => {
   logger.log(':baseURL', baseURL)
 
   const userId = useCookie('userId') as any
-  // const guestToken = ''
   const accessToken = useStorage('accessToken', null) as any
   const accessTokenExpires = useStorage('accessTokensExpires', null) as any
   const refreshToken = useStorage('refreshToken', null) as any
 
   const interceptors = {
     async onRequest({ request, options }: any) {
-      // Add baseURL
       options.baseURL = baseURL
 
       // Handle query
@@ -35,9 +33,6 @@ export const useStoreApi = defineStore('api', () => {
         }
       }
     },
-    // onRequestError({ request, options, error }) {
-    //   logger.log(':onRequestError', request, option, error)
-    // },
     onResponse({ request, response, options }: any) {
       logger.log(':onResponse')
       return response._data

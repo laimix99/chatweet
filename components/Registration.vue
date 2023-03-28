@@ -23,10 +23,25 @@ function addUser(){
 <template>
   <div class="flex flex-col w-full gap-3 items-center box-border">
     <h1>Зарегистрируйтесь </h1>
-    <input v-model="state.first_name" class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  type="text" name="" id="" placeholder="Имя">
-    <input v-model="state.email" class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  type="email" placeholder="Адрес электронной почты" >
-    <input v-model="state.password" class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  type="text" placeholder="Пароль">
-    <MyButton @click="addUser()">Зарегистрироваться</MyButton>
+    <input 
+      v-model="state.first_name" 
+      class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  
+      type="text" 
+      placeholder="Имя"
+    >
+    <input
+      v-model="state.email" 
+      class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  
+      type="email" 
+      placeholder="Адрес электронной почты" 
+    >
+    <input 
+      v-model="state.password" 
+      class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"  
+      type="text" 
+      placeholder="Пароль"
+    >
+    <MyButton @click="addUser">Зарегистрироваться</MyButton>
   </div>
 </template>
 

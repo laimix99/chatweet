@@ -22,21 +22,15 @@ async function getMyPosts() {
       }
     })
     state.post = data
-    console.log("getMyPosts", data)
+    // console.log("getMyPosts", data)
   }
 onMounted(() => {
-  // storeMain.getUser()
   getMyPosts()
-  // storeMain.getPost()
-  // storeMain.getMyPosts(storeMain.state.user.id)
-  // storeMain.getUsers()
 })
 </script>
 
 <template>
   <div class="flex flex-col w-full px-2 pb-3 box-border profile items-center">
-    <!-- <pre>{{ storeMain.state.user.id }}</pre> -->
-    <!-- <pre>{{ state.post }}</pre> -->
     <UserProfileInfo
       :user="storeMain.state.user"
     />

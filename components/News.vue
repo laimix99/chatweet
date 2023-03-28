@@ -18,9 +18,6 @@ import { onClickOutside } from '@vueuse/core'
   const storeMain = useStoreMain()
   const api = useStoreApi()
 
-  // const children = ref([])
-
-
   const state = reactive({
     isMine: computed(() => {
       return storeMain.state.user.id === props.post.user_created.id
@@ -49,7 +46,7 @@ import { onClickOutside } from '@vueuse/core'
       }
     })
     state.likes = data
-    console.log('getLikes', data)
+    // console.log('getLikes', data)
   }
 
 
@@ -86,7 +83,7 @@ import { onClickOutside } from '@vueuse/core'
         limit: -1,
       }
     })
-    console.log('getComment', data)
+    // console.log('getComment', data)
     state.comments = data
   }
 
@@ -99,7 +96,6 @@ import { onClickOutside } from '@vueuse/core'
 <template>
   <div v-if="props.post" class="flex flex-col w-full px-2 box-border">
     <div class="flex flex-row w-full py-20px gap-3 relative items-start">
-      <!-- <pre class="text-red-600">{{ post.id }}</pre> -->
       <BaseImg
         v-if="post.user_created.avatar"
         view="avatar"

@@ -19,8 +19,6 @@ const props = defineProps({
 <style scoped >
   button {
     border: none;
-    /* background: #073644; */
-    /* background: #a5a0a0; */
   }
   
 </style>

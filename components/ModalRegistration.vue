@@ -1,6 +1,6 @@
 <script setup>
 const storeMain = useStoreMain()
-console.log('show', storeMain.state.user)
+// console.log('show', storeMain.state.user)
 
 function isEmptyObj(object) {
   for (let key in object) {

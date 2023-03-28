@@ -1,5 +1,3 @@
-<!-- <template><h1>following {{ $route.params.id }}</h1></template> -->
-
 <script setup>
 const storeMain = useStoreMain()
 const api = useStoreApi()
@@ -20,17 +18,15 @@ async function getFollowing() {
       }
     }
   })
-  console.log('getFollowing', data)
+  // console.log('getFollowing', data)s
   state.followings = data
 }
 onMounted(() => {
   getFollowing()
-  // storeMain.getFollowing(route.params.id)
 })
 </script>
 
 <template>
-  <!-- <pre>{{$route.params.id}}</pre> -->
   <div class="flex flex-col w-full px-2 items-start box-border">
     <div
       class="cursor-pointer flex flex-row gap-3 items-center"

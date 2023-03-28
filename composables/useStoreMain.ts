@@ -6,17 +6,17 @@ export const useStoreMain = defineStore('counter', () => {
 
   const state = reactive({
     user: {},
-    // post: {},
     posts: [],
     myPost: [],
     comments: [],
     showModal: false,
     showEdit: false,
-    // showComment: false,
+    showSeach: false,
     showRegistration: true,
     menu: [
       {title: 'Лента', link: '/', icon: 'ribbon'},
       {title: 'Профиль', link: '/profile', icon: 'profile'},
+      {title: 'Поиск', link: '/search', icon: 'search'},
     ],
 
   }) as any
@@ -25,11 +25,10 @@ export const useStoreMain = defineStore('counter', () => {
     const options = {
       method: 'get',
       query: {
-        // fields: ['*.*'],
       },
     };
     const { data } = await api.ftch(path, options);
-    console.log(':getUsers', data);
+    // console.log(':getUsers', data);
     state.user = data;
   }
 
@@ -40,7 +39,7 @@ export const useStoreMain = defineStore('counter', () => {
         fields: ['*.*']
       }
     })
-    console.log('getFeedUser', data)
+    // console.log('getFeedUser', data)
     state.feedUser = data
   }
 
@@ -55,7 +54,7 @@ export const useStoreMain = defineStore('counter', () => {
         last_name: user.last_name
       },
     })
-    console.log("postUser")
+    // console.log("postUser")
   }
 
   async function editUsers(id: string, prof: any) {
@@ -86,7 +85,7 @@ export const useStoreMain = defineStore('counter', () => {
       },
     });
     
-    console.log('getPost', data);
+    // console.log('getPost', data);
     state.posts = data;
   }
 
@@ -98,7 +97,7 @@ export const useStoreMain = defineStore('counter', () => {
         follower: user_id
       }
     })
-    console.log(':postFollowing')
+    // console.log(':postFollowing')
   }
 
   async function getMyPosts(id: any) {
@@ -116,7 +115,7 @@ export const useStoreMain = defineStore('counter', () => {
       }
     })
     state.myPost = data
-    console.log("getMyPosts", data)
+    // console.log("getMyPosts", data)
   }
 
   async function postPost(post: any) {
@@ -155,8 +154,7 @@ export const useStoreMain = defineStore('counter', () => {
         limit: -1,
       }
     })
-    console.log('getComment', data)
-    // state.myComments = data
+    // console.log('getComment', data)
     const indexPost = state.posts.findIndex((post: any) => post.id === id)
     if(indexPost >= 0) {
       state.posts[indexPost].children = data
@@ -174,7 +172,7 @@ export const useStoreMain = defineStore('counter', () => {
         },
       }
     })
-    console.log('getComment', data)
+    // console.log('getComment', data)
     state.comments = data
   }
 
@@ -188,8 +186,7 @@ export const useStoreMain = defineStore('counter', () => {
       }
     })
     getComment(comment.parent);
-    // getPost()
-    console.log(':postComment', comment.parent)
+    // console.log(':postComment', comment.parent)
   }
   
   async function login(user: any) {
@@ -198,13 +195,12 @@ export const useStoreMain = defineStore('counter', () => {
       const { data } = await api.ftch('/auth/login', {
         method: 'post',
         body: {
-          // mode: 'cookie',
           email: user.email,
           password: user.password,
         },
         credentials: 'include',
       })
-      console.log(':login data', data)
+      // console.log(':login data', data)
       api.saveTokens(data)
     }
     catch (e: any) {
@@ -219,14 +215,11 @@ export const useStoreMain = defineStore('counter', () => {
       const { data } = await api.ftch('/auth/logout', {
         method: 'post',
         body: {
-          // mode: 'cookie',
           refresh_token: api.refreshToken,
         },
-        // credentials: 'include',
       })
-      console.log(':logout data', data)
+      // console.log(':logout data', data)
       api.removeTokens()
-      // storeMain.state.user = []
     }
     catch (e: any) {
       console.log(':logout error', e)
@@ -248,7 +241,6 @@ export const useStoreMain = defineStore('counter', () => {
     postUser,
     login,
     logout,
-    // getSelectedPost,
     getSelectedComment,
     getFeedUser,
     getMyPosts,

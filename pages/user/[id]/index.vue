@@ -21,7 +21,7 @@ async function getUser() {
       fields: ['*.*']
     }
   })
-  console.log('getPostUser', data)
+  // console.log('getPostUser', data)
   state.user = data
 }
 
@@ -40,11 +40,10 @@ async function getPost() {
     }
   })
   state.posts = data
-  console.log("getPost", data)
+  // console.log("getPost", data)
 }
 
 onMounted(() => {
-  // storeMain.getFeedUser(route.params.id)
   getUser()
   getPost()
 })

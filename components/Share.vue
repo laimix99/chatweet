@@ -34,7 +34,7 @@ async function postAdd() {
         'Content-Type': 'multipart/form-data',
       }
     })
-    console.log(':postImg fileUploaded', fileUploaded)
+    // console.log(':postImg fileUploaded', fileUploaded)
     postPayload.images = fileUploaded.id
   }
   

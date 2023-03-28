@@ -12,38 +12,9 @@ const state = reactive({
   user: null,
 })
 const router = useRouter();
-// async function login() {
-//   try {
-//     console.log(':login')
-//     const { data } = await api.ftch('/auth/login', {
-//       method: 'post',
-//       body: {
-//         // mode: 'cookie',
-//         email: state.email,
-//         password: state.password,
-//       },
-//       credentials: 'include',
-//     })
-//     console.log(':login data', data)
-//     api.saveTokens(data)
-//     router.push({ path: "/" });
-//   }
-//   catch (e: any) {
-//     console.log(':login error', e)
-//     api.removeTokens()
-//   }
-// }
-// function login() {
-//   const payloud = {
-//     email: state.email,
-//     password: state.password
-//   }
-//   storeMain.login(payloud)
-//   router.push({ path: "/" });
-// }
 async function login(user: any) {
     try {
-      console.log(':login')
+      // console.log(':login')
       const { data } = await api.ftch('/auth/login', {
         method: 'post',
         body: {
@@ -53,27 +24,25 @@ async function login(user: any) {
         },
         credentials: 'include',
       })
-      console.log(':login data', data)
+      // console.log(':login data', data)
       api.saveTokens(data)
       router.push({ path: "/" });
     }
     catch (e: any) {
-      console.log(':login error', e)
+      // console.log(':login error', e)
       api.removeTokens()
     }
   }
 async function logout() {
   try {
-    console.log(':logout start')
+    // console.log(':logout start')
     const { data } = await api.ftch('/auth/logout', {
       method: 'post',
       body: {
-        // mode: 'cookie',
         refresh_token: api.refreshToken,
       },
-      // credentials: 'include',
     })
-    console.log(':logout data', data)
+    // console.log(':logout data', data)
     api.removeTokens()
     storeMain.state.user = []
   }
@@ -90,11 +59,11 @@ watch(
   () => api.accessToken,
   (to) => {
     if (to) {
-      console.log(':W api.accessToken', to)
+      // console.log(':W api.accessToken', to)
       resume()
     }
     else {
-      console.log(':W api.accessToken', to)
+      // console.log(':W api.accessToken', to)
       pause()
     }
   },
@@ -103,16 +72,12 @@ watch(
   },
 )
 onMounted(() => {
-  console.log(':onMounted')
   storeMain.getUser()
-  console.log("api",api.refreshToken)
+  // console.log("api",api.refreshToken)
 })
 </script>
 
 <template>
-  <!-- <pre class="text-white">{{route}}</pre>
-  <pre class="text-red">{{router}}</pre> -->
-
   <div class="flex flex-col w-full p-4 gap-y-2 items-center content-start justify-start box-border">
     <h1
       v-if="!storeMain.state.user.id"
@@ -137,38 +102,14 @@ onMounted(() => {
         type="password" 
         placeholder="Password" 
         class="bg-hex-191919 rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px box-border"
-        @keyup.enter="login()"
+        @keyup.enter="login"
       >
-      <!-- <NuxtLink class="w-full" to="/"> -->
-        <MyButton class="w-full" @click="login()">
+        <MyButton class="w-full" @click="login">
           Вход
         </MyButton>
-      <!-- </NuxtLink> -->
     </div>
-    <div>
-      <!-- <pre class="text-white">{{ storeMain.state.user }}</pre> -->
-    </div>
-    <!-- <span class="font-semibold text-white">Tokens</span> -->
-    <!-- <small class="text-white access">access: {{ api.accessToken || '-' }}</small> -->
-    <!-- <small class="text-white">refresh: {{ api.refreshToken || '-' }}</small> -->
-
+    
     <div class="flex flex-row gap-x-2">
-      
-      <!-- <button @click="api.breakTokens(true, false)">
-        Breake Access Token
-      </button>
-      <button @click="api.breakTokens(false, true)">
-        Breake Refresh Token
-      </button>
-      <button @click="api.breakTokens(true, true)">
-        Breake All Tokens
-      </button> -->
-    </div>
-
-    <div class="flex flex-row gap-x-2">
-      <!-- <button @click="api.refreshTokens()">
-        Refresh
-      </button> -->
       <MyButton v-if="storeMain.state.user.id" @click="logout()">
         Выйти
       </MyButton>
@@ -192,7 +133,6 @@ pre {
 }
 input {
     width: 100%;
-    /* max-width: 400px; */
     outline: 1px solid gray;
   }
   input:focus {

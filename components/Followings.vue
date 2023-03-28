@@ -35,7 +35,7 @@ async function getSubscriptionCheck () {
   for (var obj of data) {
     state.chechId = obj
   }
-  console.log(':getSubscriptionCheck', state.subscriptionCheck)
+  // console.log(':getSubscriptionCheck', state.subscriptionCheck)
 }
 
 async function postFollowing() {
@@ -46,7 +46,7 @@ async function postFollowing() {
       follower: props.follower.user.id
     }
   })
-  console.log(':postFollowing')
+  // console.log(':postFollowing')
   getSubscriptionCheck()
 }
 
@@ -54,7 +54,7 @@ async function deleteFollowing() {
   await api.ftch(`/items/follows/${state.chechId.id}`, {
     method: 'delete'
   })
-  console.log(':deleteFollowing')
+  // console.log(':deleteFollowing')
   getSubscriptionCheck()
 }
 
@@ -67,9 +67,6 @@ onMounted(() => {
 
 <template>
   <div v-if="follower.id" class="flex flex-col w-full pt-2 gap-5 items-start">
-    <!-- <pre class="text-red-500"> user:{{ state.chechId.id }}</pre> -->
-    <!-- <pre class="text-white">follower: {{ follower.follower }}</pre> -->
-    <!-- <pre class="text-green-500">{{ state.subscriptionCheck }}</pre> -->
     <div class="flex flex-row w-full items-center justify-between ">
       <NuxtLink
         :to="`/user/${follower.follower.id}`"

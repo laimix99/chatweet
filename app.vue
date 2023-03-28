@@ -17,7 +17,6 @@ const showBottonPost = computed(() => {
   }
 })
 
-const api = useStoreApi()
 const storeMain = useStoreMain()
 const route = useRoute();
 
@@ -29,16 +28,16 @@ onMounted(() => {
 
 <template>
   <div 
-    class="flex-col-reverse flex flex-col  bg-hex-191919 w-full relative" 
+    class="flex-col-reverse flex flex-col  bg-hex-191919 w-full relative bg" 
     lg="flex flex-row items-start w-full"
   >
     <div 
       class="flex flex-row justify-center"
-      lg="flex-col pl-10 top-15 w-1/5 items-center sticky items-start"
+      lg="flex-col top-10 w-2/7 items-end pr-10 sticky items-start"
       :class="[ showMobileMenu ? '' : 'mobile-menu' ]"
     >
       <div 
-        class="flex flex-row w-full gap-2 items-center justify-center "
+        class="flex flex-row gap-2 items-center justify-center"
         lg="flex flex-col gap-2 items-start"
       >
         <NuxtLink 
@@ -79,17 +78,17 @@ onMounted(() => {
     <ModalUser/>
     <div 
       class="flex flex-col min-h-screen w-full content"
-      lg=" w-3/5"
+      lg=" w-3/7"
     >
       <NuxtPage v-if="storeMain.state.user.id"/>
       <NuxtPage v-else page-key="auth" />
       <Auth/>
     </div>
     <div 
-    class="hidden"
-    lg="w-1/5 inline"  
+      class="hidden fixed right-0"
+      lg="w-2/7 inline"  
     >
-    
+     <!-- <SearchUsers class="top-10"/> -->
     </div>
     <BaseModal 
       v-if="storeMain.state.showModal" 
@@ -107,7 +106,6 @@ body,
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  /* @apply font-sans; */
 }
 
 .modal {
@@ -127,26 +125,19 @@ h1, h2, span, p, a, input, textarea {
 .content {
   border-right: 1px solid #2f3335 ;
   border-left: 1px solid #2f3335;
-  @apply hidden;
-  // @screen lg {
-  //   border-right: none;
-  //   border-left: none;
-  // }
+  // @apply hidden;
 }
 input {
   border: none;
 }
 input:focus {
-  outline: none;
-  
+  outline: none
 }
 .link:hover{
   background-color: rgba(151, 148, 148, 0.2);
   border-radius: 16px;
 }
 .mobile-menu {
-  // flex flex-col  bg-hex-191919 w-full relative
-  // bg-black flex flex-row w-full bottom-0 z-40 items-center br sticky
   display: flex ;
   flex-direction: row;
   background: black;

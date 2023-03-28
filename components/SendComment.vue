@@ -32,7 +32,7 @@ async function postComment() {
         'Content-Type': 'multipart/form-data',
       }
     })
-    console.log(':postImg fileUploaded', fileUploaded)
+    // console.log(':postImg fileUploaded', fileUploaded)
     await api.ftch('/items/posts', {
     method: 'post',
     body: {
@@ -52,20 +52,14 @@ async function postComment() {
       }
     })
   }
-    // getComment(comment.parent);
-    // getPost()
-    storeMain.getSelectedComment(props.id_post)
-    state.descriptionComment = ''
-    state.fileUrl = ''
-    console.log(':postComment')
-    emit('dun')
-  }
+  storeMain.getSelectedComment(props.id_post)
+  state.descriptionComment = ''
+  state.fileUrl = ''
+  // console.log(':postComment')
+  emit('dun')
+}
 
-  onMounted(() => {
-    // console.log(props.show_comment, 'состояние')
-  })
-
-
+ 
 </script>
 
 <template>

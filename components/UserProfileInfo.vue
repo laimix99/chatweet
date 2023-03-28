@@ -31,7 +31,7 @@ async function getFollowing() {
       }
     }
   })
-  console.log('getFollowing', data)
+  // console.log('getFollowing', data)
   state.followings = data
 }
 
@@ -45,7 +45,7 @@ async function getFollowers() {
       }
     }
   })
-  console.log(':getFollowers', data)
+  // console.log(':getFollowers', data)
   state.followers = data
 }
 
@@ -76,7 +76,7 @@ async function postFollowing() {
       follower: props.user.id
     }
   })
-  console.log(':postFollowing')
+  // console.log(':postFollowing')
   getSubscriptionCheck()
   getFollowers()
   getFollowing()
@@ -86,7 +86,7 @@ async function deleteFollowing() {
   await api.ftch(`/items/follows/${state.chechId.id}`, {
     method: 'delete'
   })
-  console.log(':deleteFollowing')
+  // console.log(':deleteFollowing')
   getSubscriptionCheck()
   getFollowers()
   getFollowing()
@@ -142,12 +142,6 @@ onMounted(() => {
           />
           <p class="font-700 text-hex-dbdddd  text-13px" >{{ user.location }}</p>
         </div>
-        <!-- <a 
-          class="mt-2 text-hex-07485B text-14px no-underline hover:underline "
-          :href="storeMain.state.user.web_site"
-        >
-          {{ storeMain.state.user.web_site }}
-        </a> -->
       </div>
       <MyButton 
         v-if="state.isMe"
@@ -175,7 +169,6 @@ onMounted(() => {
       />
     </div>
     <div class="flex flex-row flex-wrap mt-3 text-hex-dbdddd w-full opacity-40 gap-5 ju items-start">
-      <!-- <h1 class="font-400 text-13px">Дата рождения: {{ storeMain.state.user.dateOfBirth }}</h1> -->
       <NuxtLink 
         v-if="state.followings"
         :to="`${$route.path}/following`" 

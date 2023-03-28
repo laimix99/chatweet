@@ -41,9 +41,7 @@ const props = defineProps({
 .header {
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(1px);
-  /* background-color: red; */
   border-radius: 16px 0px 0px 0px;
-  /* filter: blur(4px); */
 }
 
 /* width */
@@ -53,7 +51,6 @@ const props = defineProps({
 
 /* Track */
 ::-webkit-scrollbar-track {
-  /* background: #f1f1f1; */
   border-radius: 0px 16px 16px 0px;
   
 }

@@ -8,8 +8,6 @@ const state = reactive({
   description: storeMain.state.user.description,
   location: storeMain.state.user.location,
   file: storeMain.state.user.avatar ,
-  // webSite: '',
-  // dateOfBirth: '',
 }) as any
 
 function onFileUpload (event: any) {
@@ -28,7 +26,7 @@ async function editUser() {
         'Content-Type': 'multipart/form-data',
       }
     })
-    console.log(':postImg fileUploaded', fileUploaded)
+    // console.log(':postImg fileUploaded', fileUploaded)
     const { data: userUpdated } = await api.ftch(`/users/${storeMain.state.user.id}`, {
       method: 'PATCH',
       body: {
@@ -38,7 +36,7 @@ async function editUser() {
         description: state.description
       }
     })
-    console.log('userUpdated', userUpdated)
+    // console.log('userUpdated', userUpdated)
     state.fileUrl = ''
   } else {
     const { data: userUpdated } = await api.ftch(`/users/${storeMain.state.user.id}`, {
@@ -49,7 +47,7 @@ async function editUser() {
         description: state.description
       }
     })
-    console.log('userUpdated', userUpdated)
+    // console.log('userUpdated', userUpdated)
   }
   storeMain.getUser()
   storeMain.state.showEdit = false
@@ -110,17 +108,6 @@ async function editUser() {
           placeholder="Местоположение" 
           type="text"
         >
-        <!-- <input 
-          v-model="state.webSite"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px input box-border" 
-          placeholder="Веб сайт" 
-          type="text"
-        >
-        <input 
-          v-model="state.dateOfBirth"
-          class="bg-black rounded-5px h-30px text-hex-dbdddd w-full p-5 text-20px input box-border"
-          type="date"
-        > -->
       </div>
     </div>
   </div>
@@ -135,25 +122,8 @@ async function editUser() {
   }
   textarea {
     resize: none;
-    /* outline: 1px solid gray; */
   }
   textarea:focus {
     outline: 3px solid #07485B;
   }
-  /* input[type="date"] {
-    
-  } */
-  /* ::-webkit-calendar-picker-indicator {
-    background-color: #07485B;
-    padding: 5px;
-    border-radius: 5px;
-    
-    opacity: 0;
-  } */
-  /* .circle {
-    background: rgba(0, 0, 0, 0.2);
-  } */
-
-
-
 </style>

@@ -26,10 +26,6 @@ function back() {
   storeMain.state.comment = []
 }
 
-// const tweet = computed(() => {
-//   const tweet = storeMain.state.posts.find((post) => post.id == route.params.id)
-//   return tweet
-// });
 onMounted(() => {
   getSelectedPost()
   storeMain.getSelectedComment(route.params.id)
@@ -37,7 +33,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <pre>{{ route.params.id }}</pre> -->
   <div 
     v-if="state.post && state.post.user_created && storeMain.state.comments" 
     class="flex flex-col w-full px-3 box-border"

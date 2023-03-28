@@ -8,16 +8,10 @@ const props = defineProps({
     default: []
   }
 })
-// const storeMain = useStoreMain()
-
-// onMounted(async () => {
-// })
-
 </script>
 
 <template>
   <div class="flex flex-col w-full py-2 gap-5 social-info">
-    <!-- <pre>{{id_post}}</pre> -->
     <div class="w-full" v-for="comment in props.comments">
       <Comments :post_id="id_post"  :comment="comment"/>
     </div>

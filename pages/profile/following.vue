@@ -27,7 +27,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <pre class="text-red-400">{{ state.followings }}</pre> -->
   <div class="flex flex-col w-full px-2 items-start box-border">
     <div
       class="cursor-pointer flex flex-row gap-3 items-center"
