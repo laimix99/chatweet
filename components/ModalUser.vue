@@ -29,7 +29,7 @@ onMounted(() => {
   <div 
     v-if="isEmptyObj(storeMain.state.user)" 
     ref="target" 
-    class="flex br flex-row right-0 bottom-20 z-30 gap-2 fixed" 
+    class="flex flex-row right-0 bottom-20 z-30 gap-2 fixed" 
     lg="w-full max-w-200px bottom-10 left-50 flex flex-col"
   >
     <div 
