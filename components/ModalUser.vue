@@ -2,7 +2,6 @@
 import { onClickOutside } from '@vueuse/core'
 const storeMain = useStoreMain()
 const router = useRouter()
-// const user = storeMain.state.user
 const target = ref()
 const showModal = ref(false)
 onClickOutside(target, (event) => showModal.value = false)
@@ -30,8 +29,8 @@ onMounted(() => {
   <div 
     v-if="isEmptyObj(storeMain.state.user)" 
     ref="target" 
-    class="flex flex-row right-5 bottom-20 z-30 gap-2 fixed" 
-    lg="w-full bottom-10 left-5 flex flex-col"
+    class="flex br flex-row right-0 bottom-20 z-30 gap-2 fixed" 
+    lg="w-full max-w-200px bottom-10 left-50 flex flex-col"
   >
     <div 
       v-if="showModal"
@@ -39,7 +38,7 @@ onMounted(() => {
       lg="max-w-200px"
     >
       <h1 
-        @click="output()" 
+        @click="output" 
         class="cursor-pointer text-hex-dbdddd py-1 text-14px hover:bg-hex-a79f9f1a"
         lg="text-15px"
       >

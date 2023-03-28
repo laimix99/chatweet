@@ -20,7 +20,6 @@ const showBottonPost = computed(() => {
 const storeMain = useStoreMain()
 const route = useRoute();
 
-// const storeMain = useStsoreMain()
 onMounted(() => {
   storeMain.getUser()
 })
@@ -75,7 +74,7 @@ onMounted(() => {
         </MyButton>
       </div>
     </div>
-    <ModalUser/>
+    <ModalUser class="left-100"/>
     <div 
       class="flex flex-col min-h-screen w-full content"
       lg=" w-3/7"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onClickOutside } from '@vueuse/core'
+
 const storeMain = useStoreMain()
 const api = useStoreApi()
 const emit = defineEmits(['close'])
@@ -9,6 +11,9 @@ const state = reactive({
   location: storeMain.state.user.location,
   file: storeMain.state.user.avatar ,
 }) as any
+
+const target = ref()
+onClickOutside(target, (event) => storeMain.state.showEdit = false)
 
 function onFileUpload (event: any) {
   state.file = event.target.files[0]
@@ -57,9 +62,10 @@ async function editUser() {
 
 <template>
   <div class="flex flex-col min-h-screen w-full top-0 left-0 w-100vw z-999 modal items-center justify-center fixed">
-    <div 
-    class="bg-black flex flex-col h-screen w-full max-w-600px p-5 box-border items-start"
-    lg="rounded-16px h-full"
+    <div
+      ref="target"
+      class="bg-black flex flex-col h-screen w-full max-w-600px p-5 box-border items-start"
+      lg="rounded-16px h-full"
     >
       <div class="flex flex-row w-full items-center justify-between">
         <div class="flex flex-row gap-3 items-center">

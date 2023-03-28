@@ -65,7 +65,7 @@ async function postAdd() {
         placeholder="Что нового ?"
         class="h-auto bg-hex-191919 h-100px text-hex-dbdddd w-full text-16px"
         :style="{background: props.color}"
-        @keyup.enter="postAdd()"
+        @keyup.enter="postAdd"
       />
     </div>
     <div 

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-const storeMain = useStoreMain()
-const api = useStoreApi()
 const props = defineProps({
   user: {
     type: Object,
     default: () => {}
   },
 })
+const storeMain = useStoreMain()
+const api = useStoreApi()
 
 const state = reactive({
   isMe:  computed(() => {
@@ -101,7 +101,6 @@ onMounted(() => {
 
 <template>
   <div v-if="props.user.id" class="flex flex-col w-full py-5 items-center profile">
-    <!-- <pre class="text-white">{{ user }}</pre> -->
     <div class="flex flex-row w-full items-center justify-between">
       <div class="flex flex-col w-full items-start">
         <div v-if="state.isMe">
